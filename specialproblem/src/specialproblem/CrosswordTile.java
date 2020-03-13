@@ -10,13 +10,15 @@ public class CrosswordTile extends UIObject{
 	private boolean selected;
 	private Crossword crossword;
 	private float origX, origY;
+	private int alphabetIndex;
 
-	public CrosswordTile(float x, float y, int width, int height, BufferedImage[] images, Crossword crossword) {
+	public CrosswordTile(float x, float y, int width, int height, BufferedImage[] images, int alphabetIndex, Crossword crossword) {
 		super(x, y, width, height);
 		this.origX = x;
 		this.origY = y;
 		this.images = images;
 		selected = false;
+		this.alphabetIndex = alphabetIndex;
 		this.clicker = new ClickListener() {
 			@Override
 			public void onClick() {
@@ -44,18 +46,30 @@ public class CrosswordTile extends UIObject{
 	
 	public void changeCoord() {
 		if(selected == false) {
-			this.x = crossword.getNumLettersSelected() * 50;
-			this.y = 0;
+			this.x = crossword.getNumLettersSelected() * 50 + 300;
+			this.y = 70;
 			crossword.incrementNumLettersSelected();
+			selected = !selected;
+			updateBounds();
+			this.crossword.buildWord(this.alphabetIndex);
 		}
-		else {
-			this.x = origX;
-			this.y = origY;
-			crossword.decrementNumLettersSelected();
-		}
+//		else {
+//			this.x = origX;
+//			this.y = origY;
+//			crossword.decrementNumLettersSelected();
+//		}
+		
+	}
+	
+	public void resetCoord() {
+		this.x = origX;
+		this.y = origY;
+		crossword.decrementNumLettersSelected();
 		selected = !selected;
 		updateBounds();
 	}
+	
+	
 
 	public boolean isSelected() {
 		return selected;

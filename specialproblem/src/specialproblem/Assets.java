@@ -7,7 +7,7 @@ public class Assets {
 
 	private static final int width = 32, height = 32;
 	
-	public static Font font28, font50;
+	public static Font font28, font50, arial, arial40;
 	
 	public static BufferedImage dirt, grass, stone, tree;
 	public static BufferedImage wood;
@@ -19,6 +19,10 @@ public class Assets {
 	public static BufferedImage[] tutorial_btn;
 	public static BufferedImage[] credits_btn;
 	public static BufferedImage[] quit_btn;
+	public static BufferedImage[] submit_btn;
+	public static BufferedImage[] clear_btn;
+	public static BufferedImage[] nxt_lvl;
+	public static BufferedImage[] menu;
 	
 	public static BufferedImage[][] alphabet;
 	public static BufferedImage letterBox;
@@ -28,6 +32,8 @@ public class Assets {
 	public static void init() {
 		font28 = FontLoader.loadFont("res/fonts/slkscr.ttf", 28);
 		font50 = FontLoader.loadFont("res/fonts/slkscr.ttf", 50);
+		arial = FontLoader.loadFont("res/fonts/Arial.ttf", 20);
+		arial40 = FontLoader.loadFont("res/fonts/Arial.ttf", 40);
 		
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet.png"));
 		SpriteSheet menuSheet = new SpriteSheet(ImageLoader.loadImage("/textures/menuSheet.png"));
@@ -75,6 +81,22 @@ public class Assets {
 		quit_btn = new BufferedImage[2];
 		quit_btn[0] = menuSheet.crop(width * 3, height * 2, width * 3, height * 2);
 		quit_btn[1] = menuSheet.crop(width * 6, height * 2, width * 3, height * 2);
+		
+		submit_btn = new BufferedImage[2];
+		submit_btn[0] = menuSheet.crop(0, height * 4, width * 3, height * 2);
+		submit_btn[1] = menuSheet.crop(width * 3, height * 4, width * 3, height * 2);
+		
+		clear_btn = new BufferedImage[2];
+		clear_btn[0] = menuSheet.crop(width * 6, height * 4, width * 3, height * 2);
+		clear_btn[1] = menuSheet.crop(width * 9, height * 4, width * 3, height * 2);
+		
+		menu = new BufferedImage[2];
+		menu[0] = menuSheet.crop(width * 12, height * 4, width * 3, height);
+		menu[1] = menuSheet.crop(width * 12, height * 5, width * 3, height);
+		
+		nxt_lvl = new BufferedImage[2];
+		nxt_lvl[0] = menuSheet.crop(0, height * 6, width * 3, height * 2);
+		nxt_lvl[1] = menuSheet.crop(width * 3, height * 6, width * 3, height * 2);
 		
 		alphabet = new BufferedImage[26][2];
 		alphabet[0][0] = alphabetSheet.crop(0, 0, width * 2, height * 2);

@@ -19,7 +19,7 @@ public class Game implements Runnable {
 	// States
 	public State platform;
 	public State menuState;
-	public State crossword;
+	public State[] crosswords;
 	
 	// Input
 	private KeyManager keyManager;
@@ -47,13 +47,18 @@ public class Game implements Runnable {
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
+		CrosswordLevelAttributes.init();
 		
 		handler = new Handler(this);
 		gameCamera = new GameCamera(handler, 0, 0);
 		
 		platform = new Platform(handler);
 		menuState = new MenuState(handler);
-		crossword = new Crossword(handler);
+		crosswords = new Crossword[10];
+		for(int i = 0; i < 10; i++) {
+			crosswords[i] = new Crossword(handler, i + 1, CrosswordLevelAttributes.lettersIndices[i], CrosswordLevelAttributes.words[i], CrosswordLevelAttributes.defs[i]);
+		}
+//		crossword = new Crossword(handler, 1, CrosswordLevelAttributes.lettersIndices[0], CrosswordLevelAttributes.words[0], CrosswordLevelAttributes.defs[0]);
 		State.setState(menuState);
 	}
 		

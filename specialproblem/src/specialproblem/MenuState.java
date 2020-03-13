@@ -16,8 +16,8 @@ public class MenuState extends State{
 			@Override
 			public void onClick() {
 //				handler.getMouseManager().setUIManager(null);
-				State.setState(handler.getGame().crossword);
-				handler.getGame().crossword.setUIManager();
+				State.setState(handler.getGame().crosswords[0]);
+				handler.getGame().crosswords[0].setUIManager();
 			}
 		}));
 		
@@ -56,6 +56,10 @@ public class MenuState extends State{
 				100, true, Color.YELLOW, Assets.font50);
 		
 		uiManager.render(g);
+	}
+	
+	public void setUIManager() {
+		handler.getMouseManager().setUIManager(uiManager);
 	}
 
 }
