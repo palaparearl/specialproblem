@@ -28,4 +28,6 @@ public abstract class State {
 	public abstract void render(Graphics g);
 	
 	public void setUIManager() {}
+	
+	public void setUnlockedLevels() {}
 }

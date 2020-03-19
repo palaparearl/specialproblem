@@ -19,7 +19,9 @@ public class Game implements Runnable {
 	// States
 	public State platform;
 	public State menuState;
+	public State levelSelect;
 	public State[] crosswords;
+	public State[] mazes;
 	
 	// Input
 	private KeyManager keyManager;
@@ -30,6 +32,8 @@ public class Game implements Runnable {
 	
 	// Handler
 	private Handler handler;
+	
+	private int[] levelsUnlocked;
 		
 	public Game(String title, int width, int height) {
 		this.width = width;
@@ -37,6 +41,8 @@ public class Game implements Runnable {
 		this.title = title;
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
+		
+		levelsUnlocked = new int[]{1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 	}
 	
 	private void init() {
@@ -48,15 +54,21 @@ public class Game implements Runnable {
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
 		CrosswordLevelAttributes.init();
+		MazeLevelAttributes.init();
 		
 		handler = new Handler(this);
 		gameCamera = new GameCamera(handler, 0, 0);
 		
 		platform = new Platform(handler);
 		menuState = new MenuState(handler);
+		levelSelect = new LevelSelect(handler);
 		crosswords = new Crossword[10];
 		for(int i = 0; i < 10; i++) {
 			crosswords[i] = new Crossword(handler, i + 1, CrosswordLevelAttributes.lettersIndices[i], CrosswordLevelAttributes.words[i], CrosswordLevelAttributes.defs[i]);
+		}
+		mazes = new Maze[10];
+		for(int i = 0; i < 10; i++) {
+			mazes[i] = new Maze(handler, i + 1, MazeLevelAttributes.questions[i], MazeLevelAttributes.doorPositions[i], MazeLevelAttributes.doorDestinations[i], MazeLevelAttributes.correctAnswer[i]);
 		}
 //		crossword = new Crossword(handler, 1, CrosswordLevelAttributes.lettersIndices[0], CrosswordLevelAttributes.words[0], CrosswordLevelAttributes.defs[0]);
 		State.setState(menuState);
@@ -160,5 +172,13 @@ public class Game implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int getLevelsUnlocked(int i) {
+		return levelsUnlocked[i];
+	}
+
+	public void unlockLevel(int i) {
+		levelsUnlocked[i] = 1;
 	}
 }

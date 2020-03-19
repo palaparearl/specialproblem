@@ -43,6 +43,7 @@ public class Crossword extends State {
 			public void onClick() {
 				State.setState(handler.getGame().crosswords[level]);
 				handler.getGame().crosswords[level].setUIManager();
+				reset();
 			}
 		});
 		
@@ -161,5 +162,21 @@ public class Crossword extends State {
 		nxt_lvl.setWidth(32 * 3);
 		nxt_lvl.setHeight(32 * 2);
 		nxt_lvl.updateBounds();
+	}
+	
+	public void disableNextLevel() {
+		nxt_lvl.setWidth(0);
+		nxt_lvl.setHeight(0);
+		nxt_lvl.updateBounds();
+	}
+	
+	public void reset() {
+		numLettersSelected = 0;
+		stringFormed = "";
+		for(int i = 0; i < this.words.length; i++) {
+			wordsCreatedIndices[i] = -1;
+		}
+		numWordsCreatedIndices = 0;
+		disableNextLevel();
 	}
 }

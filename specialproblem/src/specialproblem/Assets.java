@@ -7,7 +7,7 @@ public class Assets {
 
 	private static final int width = 32, height = 32;
 	
-	public static Font font28, font50, arial, arial40;
+	public static Font font28, font50, arial, arial40, courier, lazyMorning;
 	
 	public static BufferedImage dirt, grass, stone, tree;
 	public static BufferedImage wood;
@@ -23,25 +23,82 @@ public class Assets {
 	public static BufferedImage[] clear_btn;
 	public static BufferedImage[] nxt_lvl;
 	public static BufferedImage[] menu;
+	public static BufferedImage[] levelsLocked;
+	public static BufferedImage[][] levels;
+	public static BufferedImage[][] doors;
 	
 	public static BufferedImage[][] alphabet;
 	public static BufferedImage letterBox;
 	public static BufferedImage cw_wallpaper;
 	public static BufferedImage menuBackground;
+	public static BufferedImage scroll;
+	public static BufferedImage mazeBg;
 
 	public static void init() {
 		font28 = FontLoader.loadFont("res/fonts/slkscr.ttf", 28);
 		font50 = FontLoader.loadFont("res/fonts/slkscr.ttf", 50);
 		arial = FontLoader.loadFont("res/fonts/Arial.ttf", 20);
 		arial40 = FontLoader.loadFont("res/fonts/Arial.ttf", 40);
+		courier = FontLoader.loadFont("res/fonts/COURIER.ttf", 60);
+		lazyMorning = FontLoader.loadFont("res/fonts/lazymorning.otf", 50);
 		
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet.png"));
 		SpriteSheet menuSheet = new SpriteSheet(ImageLoader.loadImage("/textures/menuSheet.png"));
 		SpriteSheet alphabetSheet = new SpriteSheet(ImageLoader.loadImage("/textures/alphabetSheet.png"));
+		SpriteSheet levelsLockedSheet = new SpriteSheet(ImageLoader.loadImage("/textures/levelslocked.png"));
+		SpriteSheet levelsSelected = new SpriteSheet(ImageLoader.loadImage("/textures/levelsselected.png"));
+		SpriteSheet levelsUnselected = new SpriteSheet(ImageLoader.loadImage("/textures/levelsunselected.png"));
 		
 		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen.png");
 		
 		wood = sheet.crop(width, height, width, height);
+		
+		scroll = ImageLoader.loadImage("/textures/scroll.png");
+		mazeBg = ImageLoader.loadImage("/textures/mazebg.png");
+		
+		doors = new BufferedImage[3][2];
+		doors[0][0] = ImageLoader.loadImage("/textures/door0.png");
+		doors[0][1] = ImageLoader.loadImage("/textures/lightdoor0.png");
+		doors[1][0] = ImageLoader.loadImage("/textures/door1.png");
+		doors[1][1] = ImageLoader.loadImage("/textures/lightdoor1.png");
+		doors[2][0] = ImageLoader.loadImage("/textures/door2.png");
+		doors[2][1] = ImageLoader.loadImage("/textures/lightdoor2.png");
+		
+		levelsLocked = new BufferedImage[10];
+		levelsLocked[0] = levelsLockedSheet.crop(0, 0, 430, 85);
+		levelsLocked[1] = levelsLockedSheet.crop(0, 85, 430, 85);
+		levelsLocked[2] = levelsLockedSheet.crop(0, 85 * 2, 430, 85);
+		levelsLocked[3] = levelsLockedSheet.crop(0, 85 * 3, 430, 85);
+		levelsLocked[4] = levelsLockedSheet.crop(0, 85 * 4, 430, 85);
+		levelsLocked[5] = levelsLockedSheet.crop(430, 0, 430, 85);
+		levelsLocked[6] = levelsLockedSheet.crop(430, 85, 430, 85);
+		levelsLocked[7] = levelsLockedSheet.crop(430, 85 * 2, 430, 85);
+		levelsLocked[8] = levelsLockedSheet.crop(430, 85 * 3, 430, 85);
+		levelsLocked[9] = levelsLockedSheet.crop(430, 85 * 4, 430, 85);
+		
+		levels = new BufferedImage[10][2];
+		
+		levels[0][0] = levelsUnselected.crop(0, 0, 430, 85);
+		levels[1][0] = levelsUnselected.crop(0, 85, 430, 85);
+		levels[2][0] = levelsUnselected.crop(0, 85 * 2, 430, 85);
+		levels[3][0] = levelsUnselected.crop(0, 85 * 3, 430, 85);
+		levels[4][0] = levelsUnselected.crop(0, 85 * 4, 430, 85);
+		levels[5][0] = levelsUnselected.crop(430, 0, 430, 85);
+		levels[6][0] = levelsUnselected.crop(430, 85, 430, 85);
+		levels[7][0] = levelsUnselected.crop(430, 85 * 2, 430, 85);
+		levels[8][0] = levelsUnselected.crop(430, 85 * 3, 430, 85);
+		levels[9][0] = levelsUnselected.crop(430, 85 * 4, 430, 85);
+		
+		levels[0][1] = levelsSelected.crop(0, 0, 430, 85);
+		levels[1][1] = levelsSelected.crop(0, 85, 430, 85);
+		levels[2][1] = levelsSelected.crop(0, 85 * 2, 430, 85);
+		levels[3][1] = levelsSelected.crop(0, 85 * 3, 430, 85);
+		levels[4][1] = levelsSelected.crop(0, 85 * 4, 430, 85);
+		levels[5][1] = levelsSelected.crop(430, 0, 430, 85);
+		levels[6][1] = levelsSelected.crop(430, 85, 430, 85);
+		levels[7][1] = levelsSelected.crop(430, 85 * 2, 430, 85);
+		levels[8][1] = levelsSelected.crop(430, 85 * 3, 430, 85);
+		levels[9][1] = levelsSelected.crop(430, 85 * 4, 430, 85);
 		
 		btn_start = new BufferedImage[2];
 		btn_start[0] = sheet.crop(width * 6, height * 4, width * 2, height);
