@@ -5,6 +5,7 @@ public class MazeLevelAttributes {
 	public static int[][][] doorPositions;
 	public static int[][][] doorDestinations;
 	public static int[][] correctAnswer;
+	public static int[][] numChoices;
 	
 	public static void init() {
 		questions = new String[10][9];
@@ -124,7 +125,7 @@ public class MazeLevelAttributes {
 		
 		doorDestinations = new int[10][][];
 		
-		doorDestinations[0] = new int[][] {{-1, 3, 1, -1}, {0, -1, 2, -1}, {1, 3, -1, -1}, {4, 8, -1, 2}, {-1, 7, 3, -1}, {-1, 6, -1, 0}, {-1, -1, -1, 5}, {-1, 99, -1, 4}, {-1, -1, -1, 3}};
+		doorDestinations[0] = new int[][] {{-1, 5, 1, -1}, {0, -1, 2, -1}, {1, 3, -1, -1}, {4, 8, -1, 2}, {-1, 7, 3, -1}, {-1, 6, -1, 0}, {-1, -1, -1, 5}, {-1, 99, -1, 4}, {-1, -1, -1, 3}};
 		doorDestinations[1] = new int[][] {{-1, 5, -1, -1}, {-1, 4, 2, -1}, {1, -1, -1, -1}, {4, 8, -1, -1}, {5, -1, 3, 1}, {-1, 6, 4, 0}, {-1, -1, -1, 5}, {-1, 99, 8, -1}, {7, -1, -1, 3}};
 		doorDestinations[2] = new int[][] {{-1, 5, 1, -1}, {0, 4, -1, -1}, {-1, 3, -1, -1}, {4, 8, -1, 2}, {-1, -1, 3, 1}, {-1, 6, -1, 0}, {-1, -1, 7, 5}, {6, 99, -1, -1}, {-1, -1, -1, 3}};
 		doorDestinations[3] = new int[][] {{-1, 5, 1, -1}, {0, 4, -1, -1}, {-1, 3, -1, -1}, {4, 8, -1, 2}, {-1, -1, 3, 1}, {-1, 6, -1, 0}, {-1, -1, -1, 5}, {-1, 99, 8, -1}, {7, -1, -1, 3}};
@@ -147,5 +148,17 @@ public class MazeLevelAttributes {
 		correctAnswer[7] = new int[] {1, 2, 0, 0, 1, 1, 1, 2, 0};
 		correctAnswer[8] = new int[] {0, 1, 0, 0, 1, 0, 0, 1, 1};
 		correctAnswer[9] = new int[] {1, 1, 2, 0, 1, 2, 1, 0, 1};
+		
+		numChoices = new int[10][];
+		numChoices[0] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 3};
+		numChoices[1] = new int[] {3, 3, 3, 3, 3, 3, 2, 2, 3};
+		numChoices[2] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 3};
+		numChoices[3] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 3};
+		numChoices[4] = new int[] {2, 3, 3, 2, 3, 2, 3, 3, 2};
+		numChoices[5] = new int[] {3, 2, 3, 2, 3, 3, 3, 2, 3};
+		numChoices[6] = new int[] {3, 3, 3, 3, 2, 3, 3, 3, 3};
+		numChoices[7] = new int[] {2, 3, 3, 3, 2, 3, 3, 3, 2};
+		numChoices[8] = new int[] {3, 3, 3, 2, 3, 3, 2, 2, 3};
+		numChoices[9] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 2};
 	}
 }

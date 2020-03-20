@@ -33,6 +33,11 @@ public class Assets {
 	public static BufferedImage menuBackground;
 	public static BufferedImage scroll;
 	public static BufferedImage mazeBg;
+	
+	public static BufferedImage check;
+	public static BufferedImage cross;
+	
+	public static BufferedImage[][][][] choices;
 
 	public static void init() {
 		font28 = FontLoader.loadFont("res/fonts/slkscr.ttf", 28);
@@ -51,18 +56,23 @@ public class Assets {
 		
 		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen.png");
 		
+		check = ImageLoader.loadImage("/textures/check.png");
+		cross = ImageLoader.loadImage("/textures/cross.png");
+		
 		wood = sheet.crop(width, height, width, height);
 		
 		scroll = ImageLoader.loadImage("/textures/scroll.png");
 		mazeBg = ImageLoader.loadImage("/textures/mazebg.png");
 		
-		doors = new BufferedImage[3][2];
+		doors = new BufferedImage[4][2];
 		doors[0][0] = ImageLoader.loadImage("/textures/door0.png");
 		doors[0][1] = ImageLoader.loadImage("/textures/lightdoor0.png");
 		doors[1][0] = ImageLoader.loadImage("/textures/door1.png");
 		doors[1][1] = ImageLoader.loadImage("/textures/lightdoor1.png");
 		doors[2][0] = ImageLoader.loadImage("/textures/door2.png");
 		doors[2][1] = ImageLoader.loadImage("/textures/lightdoor2.png");
+		doors[3][0] = ImageLoader.loadImage("/textures/back.png");
+		doors[3][1] = ImageLoader.loadImage("/textures/lightback.png");
 		
 		levelsLocked = new BufferedImage[10];
 		levelsLocked[0] = levelsLockedSheet.crop(0, 0, 430, 85);
@@ -213,6 +223,22 @@ public class Assets {
 	
 		cw_wallpaper = ImageLoader.loadImage("/textures/cw_wallpaper.jpg");
 		menuBackground = ImageLoader.loadImage("/textures/menuBackground.png");
+		
+		choices = new BufferedImage[10][9][3][2];
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 9; j++) {
+				for(int k = 0; k < 3; k++) {
+					for(int l = 0; l < 2; l++) {
+						try {
+							choices[i][j][k][l] = ImageLoader.loadImage("/textures/choices/" + i + j + k + l + ".png");
+						}
+						catch(Exception e) {
+							
+						}
+					}
+				}
+			}
+		}
 	}
 	
 }

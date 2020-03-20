@@ -14,6 +14,7 @@ public class Maze extends State{
 	
 	private int roomNumber;
 	private Room[] rooms;
+	private boolean displayQuestion;
 	
 	public Maze(Handler handler, int level, String[] questions, int[][] doorPositions, int[][] doorDestinations, int[] correctAnswer) {
 		super(handler);
@@ -27,18 +28,12 @@ public class Maze extends State{
 		roomNumber = 0;
 		rooms = new Room[9];
 		for(int i = 0; i < 9; i++) {
-			rooms[i] = new Room(this, this.questions[i], this.doorPositions[i], this.doorDestinations[i], this.correctAnswer[i]);
+			rooms[i] = new Room(this, i, handler, this.questions[i], this.doorPositions[i], this.doorDestinations[i], this.correctAnswer[i]);
 		}
 		
-		uiManager = new UIManager(handler);
+		displayQuestion = false;
 		
-		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.menu, new ClickListener() {
-			@Override
-			public void onClick() {
-				State.setState(handler.getGame().menuState);
-				handler.getGame().menuState.setUIManager();
-			}
-		}));
+		uiManager = rooms[roomNumber].getUIManager();
 	}
 
 	@Override
@@ -53,26 +48,46 @@ public class Maze extends State{
 //		g.drawImage(Assets.doors[0], 100 - 60, 142, null);
 //		g.drawImage(Assets.doors[1], 900 / 2 - 60, 127, null);
 //		g.drawImage(Assets.doors[2], 800 - 60, 142, null);
+//		g.drawImage(Assets.doors[3][0], 900 / 2 - 25, 400 - 60, null);
 //		
 //		g.drawImage(Assets.scroll, 5, 10, 600, 350, null);
 //		Text.drawStringMultiLine(g, "What are shell scripts?", 440, 90, 90, Color.BLACK, Assets.lazyMorning);
 		
 		rooms[roomNumber].render(g);
 		
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 400, 900, 200);
-		
 //		g.setColor(Color.BLUE);
 //		g.fillRect(900 - 210 - 20, 600 - 210 - 20, 210, 210);
-				
+		
+		uiManager = rooms[roomNumber].getUIManager();
+		setUIManager();
+		uiManager.render(g);
+		
 		g.setColor(Color.RED);
 		g.drawRect(900 - 210 - 30, 600 - 210 - 30, 230, 230);
 		
-		uiManager.render(g);
+		if(displayQuestion == true) {
+			g.drawImage(Assets.scroll, 5, 10, 600, 350, null);
+			Text.drawStringMultiLine(g, questions[roomNumber], 440, 90, 90, Color.BLACK, Assets.arial);
+		}
 	}
 	
 	public void setUIManager() {
 		handler.getMouseManager().setUIManager(uiManager);
 	}
-
+	
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+	
+	public int getRoomNumber() {
+		return this.roomNumber;
+	}
+	
+	public void toggleDisplayQuestion() {
+		displayQuestion = !displayQuestion;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
 }
