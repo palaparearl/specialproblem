@@ -22,6 +22,7 @@ public class Assets {
 	public static BufferedImage[] submit_btn;
 	public static BufferedImage[] clear_btn;
 	public static BufferedImage[] nxt_lvl;
+	public static BufferedImage[] proceed;
 	public static BufferedImage[] menu;
 	public static BufferedImage[] levelsLocked;
 	public static BufferedImage[][] levels;
@@ -164,6 +165,10 @@ public class Assets {
 		nxt_lvl = new BufferedImage[2];
 		nxt_lvl[0] = menuSheet.crop(0, height * 6, width * 3, height * 2);
 		nxt_lvl[1] = menuSheet.crop(width * 3, height * 6, width * 3, height * 2);
+		
+		proceed = new BufferedImage[2];
+		proceed[0] = menuSheet.crop(width * 6, height * 6, width * 3, height * 2);
+		proceed[1] = menuSheet.crop(width * 9, height * 6, width * 3, height * 2);
 		
 		alphabet = new BufferedImage[26][2];
 		alphabet[0][0] = alphabetSheet.crop(0, 0, width * 2, height * 2);

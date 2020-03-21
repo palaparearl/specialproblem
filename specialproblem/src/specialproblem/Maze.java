@@ -15,6 +15,8 @@ public class Maze extends State{
 	private int roomNumber;
 	private Room[] rooms;
 	private boolean displayQuestion;
+	private int[] visited;
+	private int numVisited;
 	
 	public Maze(Handler handler, int level, String[] questions, int[][] doorPositions, int[][] doorDestinations, int[] correctAnswer) {
 		super(handler);
@@ -32,6 +34,11 @@ public class Maze extends State{
 		}
 		
 		displayQuestion = false;
+		visited = new int[9];
+		for(int i = 0; i < 9; i++) {
+			visited[i] = -1;
+		}
+		numVisited = 0;
 		
 		uiManager = rooms[roomNumber].getUIManager();
 	}
@@ -89,5 +96,27 @@ public class Maze extends State{
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public boolean checkVisited(int n) {
+		for(int i = 0; i < 9; i++) {
+			if(visited[i] == n) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void addVisited(int n) {
+		visited[numVisited++] = n;
+	}
+	
+	public void reset() {
+		roomNumber = 0;
+		for(int i = 0; i < 9; i++) {
+			visited[i] = -1;
+		}
+		numVisited = 0;
 	}
 }

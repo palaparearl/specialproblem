@@ -20,12 +20,12 @@ public class MenuState extends State{
 //				State.setState(handler.getGame().crosswords[0]);
 //				handler.getGame().crosswords[0].setUIManager();
 				
-//				handler.getGame().levelSelect.setUnlockedLevels();
-//				State.setState(handler.getGame().levelSelect);
-//				handler.getGame().levelSelect.setUIManager();
+				handler.getGame().levelSelect.setUnlockedLevels();
+				State.setState(handler.getGame().levelSelect);
+				handler.getGame().levelSelect.setUIManager();
 				
-				State.setState(handler.getGame().mazes[0]);
-				handler.getGame().mazes[0].setUIManager();
+//				State.setState(handler.getGame().mazes[0]);
+//				handler.getGame().mazes[0].setUIManager();
 			}
 		}));
 		

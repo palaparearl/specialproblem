@@ -16,6 +16,7 @@ public class Room {
 	private int nextRoom;
 	private UIImageButton[] doorButtons;
 	private UIImageButton[] choiceButtons;
+	private UIImageButton proceed;
 	private boolean answered;
 	
 	public Room(Maze maze, int roomNo, Handler handler, String question, int[] doorPositions, int[] doorDestinations, int correctAnswer) {
@@ -43,6 +44,7 @@ public class Room {
 						@Override
 						public void onClick() {
 							answered = true;
+							maze.addVisited(roomNo);
 							disappearChoices();
 						}
 					});
@@ -53,6 +55,7 @@ public class Room {
 						@Override
 						public void onClick() {
 							answered = true;
+							maze.addVisited(roomNo);
 							disappearChoices();
 						}
 					});
@@ -63,6 +66,7 @@ public class Room {
 						@Override
 						public void onClick() {
 							answered = true;
+							maze.addVisited(roomNo);
 							disappearChoices();
 						}
 					});
@@ -79,6 +83,26 @@ public class Room {
 			}
 		}));
 		
+		proceed = new UIImageButton(794, 200 - 32, 0, 0, Assets.proceed, new ClickListener() {
+			@Override
+			public void onClick() {
+				reset();
+				if(nextRoom != 99) {
+					maze.setRoomNumber(nextRoom);
+				}
+				else {
+					maze.reset();
+					if(maze.getLevel() != 10) {
+						handler.getGame().unlockLevel(maze.getLevel());
+					}
+					handler.getGame().levelSelect.setUnlockedLevels();
+					State.setState(handler.getGame().levelSelect);
+					handler.getGame().levelSelect.setUIManager();
+				}
+			}
+		});
+		uiManager.addObject(proceed);
+		
 		for(int i = 0; i < 4; i++) {
 			if(doorPositions[i] == 1) {
 				switch(i) {
@@ -88,9 +112,26 @@ public class Room {
 							public void onClick() {
 //								System.out.println(doorDestinations[0]);
 //								maze.setRoomNumber(doorDestinations[0]);
-								maze.toggleDisplayQuestion();
-								nextRoom = doorDestinations[0];
-								disappearDoors();
+								if(maze.checkVisited(roomNo)/* || maze.checkVisited(doorDestinations[0])*/) {
+									if(doorDestinations[0] != 99) {
+										nextRoom = doorDestinations[0];
+										maze.setRoomNumber(nextRoom);
+									}
+									else {
+										maze.reset();
+										if(maze.getLevel() != 10) {
+											handler.getGame().unlockLevel(maze.getLevel());
+										}
+										handler.getGame().levelSelect.setUnlockedLevels();
+										State.setState(handler.getGame().levelSelect);
+										handler.getGame().levelSelect.setUIManager();
+									}
+								}
+								else {
+									maze.toggleDisplayQuestion();
+									nextRoom = doorDestinations[0];
+									disappearDoors();
+								}
 							}
 						});
 						uiManager.addObject(doorButtons[0]);
@@ -101,9 +142,26 @@ public class Room {
 							public void onClick() {
 //								System.out.println(doorDestinations[1]);
 //								maze.setRoomNumber(doorDestinations[1]);
-								maze.toggleDisplayQuestion();
-								nextRoom = doorDestinations[1];
-								disappearDoors();
+								if(maze.checkVisited(roomNo)/* || maze.checkVisited(doorDestinations[1])*/) {
+									if(doorDestinations[1] != 99) {
+										nextRoom = doorDestinations[1];
+										maze.setRoomNumber(nextRoom);
+									}
+									else {
+										maze.reset();
+										if(maze.getLevel() != 10) {
+											handler.getGame().unlockLevel(maze.getLevel());
+										}
+										handler.getGame().levelSelect.setUnlockedLevels();
+										State.setState(handler.getGame().levelSelect);
+										handler.getGame().levelSelect.setUIManager();
+									}
+								}
+								else {
+									maze.toggleDisplayQuestion();
+									nextRoom = doorDestinations[1];
+									disappearDoors();
+								}
 							}
 						});
 						uiManager.addObject(doorButtons[1]);
@@ -114,9 +172,26 @@ public class Room {
 							public void onClick() {
 //								System.out.println(doorDestinations[2]);
 //								maze.setRoomNumber(doorDestinations[2]);
-								maze.toggleDisplayQuestion();
-								nextRoom = doorDestinations[2];
-								disappearDoors();
+								if(maze.checkVisited(roomNo)/* || maze.checkVisited(doorDestinations[2])*/) {
+									if(doorDestinations[2] != 99) {
+										nextRoom = doorDestinations[2];
+										maze.setRoomNumber(nextRoom);
+									}
+									else {
+										maze.reset();
+										if(maze.getLevel() != 10) {
+											handler.getGame().unlockLevel(maze.getLevel());
+										}
+										handler.getGame().levelSelect.setUnlockedLevels();
+										State.setState(handler.getGame().levelSelect);
+										handler.getGame().levelSelect.setUIManager();
+									}
+								}
+								else {
+									maze.toggleDisplayQuestion();
+									nextRoom = doorDestinations[2];
+									disappearDoors();
+								}
 							}
 						});
 						uiManager.addObject(doorButtons[2]);
@@ -127,9 +202,26 @@ public class Room {
 							public void onClick() {
 //								System.out.println(doorDestinations[3]);
 //								maze.setRoomNumber(doorDestinations[3]);
-								maze.toggleDisplayQuestion();
-								nextRoom = doorDestinations[3];
-								disappearDoors();
+								if(maze.checkVisited(roomNo)/* || maze.checkVisited(doorDestinations[3])*/) {
+									if(doorDestinations[3] != 99) {
+										nextRoom = doorDestinations[3];
+										maze.setRoomNumber(nextRoom);
+									}
+									else {
+										maze.reset();
+										if(maze.getLevel() != 10) {
+											handler.getGame().unlockLevel(maze.getLevel());
+										}
+										handler.getGame().levelSelect.setUnlockedLevels();
+										State.setState(handler.getGame().levelSelect);
+										handler.getGame().levelSelect.setUIManager();
+									}
+								}
+								else {
+									maze.toggleDisplayQuestion();
+									nextRoom = doorDestinations[3];
+									disappearDoors();
+								}
 							}
 						});
 						uiManager.addObject(doorButtons[3]);
@@ -199,6 +291,32 @@ public class Room {
 		}
 	}
 	
+	public void appearDoors() {
+		for(int i = 0; i < 4; i++) {
+			if(doorButtons[i] != null) {
+				switch(i) {
+					case 0:
+						doorButtons[i].setWidth(120);
+						doorButtons[i].setHeight(242);
+						break;
+					case 1:
+						doorButtons[i].setWidth(120);
+						doorButtons[i].setHeight(198);
+						break;
+					case 2:
+						doorButtons[i].setWidth(120);
+						doorButtons[i].setHeight(243);
+						break;
+					case 3:
+						doorButtons[i].setWidth(50);
+						doorButtons[i].setHeight(50);
+						break;
+				}
+				doorButtons[i].updateBounds();
+			}
+		}
+	}
+	
 	public void appearChoices() {
 		for(int i = 0; i < MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]; i++) {
 			choiceButtons[i].setWidth(400);
@@ -212,6 +330,30 @@ public class Room {
 			choiceButtons[i].setWidth(0);
 			choiceButtons[i].setHeight(0);
 			choiceButtons[i].updateBounds();
+			
+			proceed.setWidth(32 * 3);
+			proceed.setHeight(32 * 2);
+			proceed.updateBounds();
 		}
+	}
+	
+	public void disappearChoicesReset() {
+		for(int i = 0; i < MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]; i++) {
+			choiceButtons[i].setWidth(0);
+			choiceButtons[i].setHeight(0);
+			choiceButtons[i].updateBounds();
+			
+			proceed.setWidth(0);
+			proceed.setHeight(0);
+			proceed.updateBounds();
+		}
+	}
+	
+	public void reset() {
+		maze.toggleDisplayQuestion();
+//		nextRoom = -1;
+		appearDoors();
+		disappearChoicesReset();
+		answered = false;
 	}
 }

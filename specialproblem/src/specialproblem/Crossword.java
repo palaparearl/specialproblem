@@ -20,7 +20,7 @@ public class Crossword extends State {
 	private int[] wordsCreatedIndices;
 	private int numWordsCreatedIndices;
 	private int defStartLine;
-	private UIImageButton nxt_lvl;
+	private UIImageButton proceed;
 	
 	public Crossword(Handler handler, int level, int[] lettersIndices, String[] words, String[] defs) {
 		super(handler);
@@ -38,11 +38,14 @@ public class Crossword extends State {
 		}
 		numWordsCreatedIndices = 0;
 		defStartLine = 145;
-		nxt_lvl = new UIImageButton(handler.getGame().getWidth() / 2 - 48, 150, 0, 0, Assets.nxt_lvl, new ClickListener() {
+		proceed = new UIImageButton(handler.getGame().getWidth() / 2 - 48, 150, 0, 0, Assets.proceed, new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[level]);
-				handler.getGame().crosswords[level].setUIManager();
+//				State.setState(handler.getGame().crosswords[level]);
+//				handler.getGame().crosswords[level].setUIManager();
+				
+				State.setState(handler.getGame().mazes[level - 1]);
+				handler.getGame().mazes[level - 1].setUIManager();
 				reset();
 			}
 		});
@@ -99,7 +102,7 @@ public class Crossword extends State {
 			}
 		}));
 		
-		uiManager.addObject(nxt_lvl);
+		uiManager.addObject(proceed);
 //		
 //		uiManager.addObject(new UIImageButton(0, 300, 100, 100, Assets.credits_btn, new ClickListener() {
 //			@Override
@@ -159,15 +162,15 @@ public class Crossword extends State {
 	}
 	
 	public void enableNextLevel() {
-		nxt_lvl.setWidth(32 * 3);
-		nxt_lvl.setHeight(32 * 2);
-		nxt_lvl.updateBounds();
+		proceed.setWidth(32 * 3);
+		proceed.setHeight(32 * 2);
+		proceed.updateBounds();
 	}
 	
 	public void disableNextLevel() {
-		nxt_lvl.setWidth(0);
-		nxt_lvl.setHeight(0);
-		nxt_lvl.updateBounds();
+		proceed.setWidth(0);
+		proceed.setHeight(0);
+		proceed.updateBounds();
 	}
 	
 	public void reset() {
