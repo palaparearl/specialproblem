@@ -2,6 +2,8 @@ package specialproblem;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,7 +39,12 @@ public class Crossword extends State {
 			wordsCreatedIndices[i] = -1;
 		}
 		numWordsCreatedIndices = 0;
-		defStartLine = 145;
+		if(defs.length == 4) {
+			defStartLine = 145;
+		}
+		else {
+			defStartLine = 145 + 130;
+		}
 		proceed = new UIImageButton(handler.getGame().getWidth() / 2 - 48, 150, 0, 0, Assets.proceed, new ClickListener() {
 			@Override
 			public void onClick() {
@@ -121,17 +128,22 @@ public class Crossword extends State {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(Assets.cw_wallpaper, 0, 0, handler.getWidth(), handler.getHeight(), null);
-		g.drawImage(Assets.letterBox, 300, 250, (int)(384 * 0.78125), (int)(384 * 0.78125), null);
+		g.drawImage(Assets.letterBox, 300, 250, null);
 //		g.drawImage(Assets.alphabet[25][1], 325, 275, (int)(64 * 0.78125), (int)(64 * 0.78125), null);
+		
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHints(rh);
+		
 		for(int i = 0; i < defs.length; i++) {
-			Text.drawStringMultiLine(g, defs[i], 290, 5, defStartLine + (i * 130), Color.BLACK, Assets.arial);
+			Text.drawStringMultiLine(g, defs[i], 285, 5, defStartLine + (i * 130), Color.BLACK, Assets.garamonditalic);
 		}
 //		System.out.println(this.stringFormed);
 		
 		for(int i = 0; i < words.length; i++) {
 			if(wordsCreatedIndices[i] >= 0) {
 				int index = wordsCreatedIndices[i];
-				Text.drawString(g, words[index], 15, defStartLine + (index * 130) - 30, false, Color.RED, Assets.arial40);
+				Text.drawString(g, words[index], 5, defStartLine + (index * 130) - 20, false, Color.RED, Assets.garamondbold);
 			}
 		}
 		uiManager.render(g);

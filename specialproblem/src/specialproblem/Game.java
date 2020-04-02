@@ -17,11 +17,13 @@ public class Game implements Runnable {
 	private Graphics g;
 	
 	// States
-	public State platform;
+//	public State platform;
 	public State menuState;
+	public State credits;
 	public State levelSelect;
 	public State[] crosswords;
 	public State[] mazes;
+	public State teaching;
 	
 	// Input
 	private KeyManager keyManager;
@@ -42,7 +44,7 @@ public class Game implements Runnable {
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
 		
-		levelsUnlocked = new int[]{1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+		levelsUnlocked = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 	}
 	
 	private void init() {
@@ -59,8 +61,9 @@ public class Game implements Runnable {
 		handler = new Handler(this);
 		gameCamera = new GameCamera(handler, 0, 0);
 		
-		platform = new Platform(handler);
+//		platform = new Platform(handler);
 		menuState = new MenuState(handler);
+		credits = new Credits(handler);
 		levelSelect = new LevelSelect(handler);
 		crosswords = new Crossword[10];
 		for(int i = 0; i < 10; i++) {
@@ -70,7 +73,9 @@ public class Game implements Runnable {
 		for(int i = 0; i < 10; i++) {
 			mazes[i] = new Maze(handler, i + 1, MazeLevelAttributes.questions[i], MazeLevelAttributes.doorPositions[i], MazeLevelAttributes.doorDestinations[i], MazeLevelAttributes.correctAnswer[i]);
 		}
+		teaching = new Teaching(handler);
 //		crossword = new Crossword(handler, 1, CrosswordLevelAttributes.lettersIndices[0], CrosswordLevelAttributes.words[0], CrosswordLevelAttributes.defs[0]);
+		display.doneLoading();
 		State.setState(menuState);
 	}
 		

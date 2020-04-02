@@ -61,18 +61,18 @@ public class Inventory {
 			if(selectedItem + i < 0 || selectedItem + i >= len)
 				continue;
 			if(i == 0) {
-				Text.drawString(g, "> " + inventoryItems.get(selectedItem + i).getName() + " <", invListCenterX,
-						invListCenterY + i * invListSpacing, true, Color.YELLOW, Assets.font28);
+//				Text.drawString(g, "> " + inventoryItems.get(selectedItem + i).getName() + " <", invListCenterX,
+//						invListCenterY + i * invListSpacing, true, Color.YELLOW, Assets.font28);
 			}else {
-				Text.drawString(g, inventoryItems.get(selectedItem + i).getName(), invListCenterX,
-						invListCenterY + i * invListSpacing, true, Color.WHITE, Assets.font28);
+//				Text.drawString(g, inventoryItems.get(selectedItem + i).getName(), invListCenterX,
+//						invListCenterY + i * invListSpacing, true, Color.WHITE, Assets.font28);
 			}
 			
 		}
 		
 		Item item = inventoryItems.get(selectedItem);
 		g.drawImage(item.getTexture(), invImageX, invImageY, invImageWidth, invImageHeight, null);
-		Text.drawString(g, Integer.toString(item.getCount()), invCountX, invCountY, true, Color.WHITE, Assets.font28);
+//		Text.drawString(g, Integer.toString(item.getCount()), invCountX, invCountY, true, Color.WHITE, Assets.font28);
 	}
 	
 	// Inventory methods

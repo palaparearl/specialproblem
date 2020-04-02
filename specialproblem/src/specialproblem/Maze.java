@@ -17,6 +17,8 @@ public class Maze extends State{
 	private boolean displayQuestion;
 	private int[] visited;
 	private int numVisited;
+	private Map map;
+	private int[] visibleRooms;
 	
 	public Maze(Handler handler, int level, String[] questions, int[][] doorPositions, int[][] doorDestinations, int[] correctAnswer) {
 		super(handler);
@@ -39,6 +41,12 @@ public class Maze extends State{
 			visited[i] = -1;
 		}
 		numVisited = 0;
+		map = new Map(this);
+		visibleRooms = new int[9];
+		for(int i = 0; i < 9; i++) {
+			visibleRooms[i] = -1;
+		}
+		visibleRooms[0] = 1;
 		
 		uiManager = rooms[roomNumber].getUIManager();
 	}
@@ -72,9 +80,11 @@ public class Maze extends State{
 		g.setColor(Color.RED);
 		g.drawRect(900 - 210 - 30, 600 - 210 - 30, 230, 230);
 		
+		map.render(g);
+		
 		if(displayQuestion == true) {
 			g.drawImage(Assets.scroll, 5, 10, 600, 350, null);
-			Text.drawStringMultiLine(g, questions[roomNumber], 440, 90, 90, Color.BLACK, Assets.arial);
+			Text.drawStringMultiLine(g, questions[roomNumber], 440, 90, 90, Color.BLACK, Assets.trixie);
 		}
 	}
 	
@@ -84,6 +94,7 @@ public class Maze extends State{
 	
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
+		visibleRooms[roomNumber] = 1;
 	}
 	
 	public int getRoomNumber() {
@@ -118,5 +129,13 @@ public class Maze extends State{
 			visited[i] = -1;
 		}
 		numVisited = 0;
+		for(int i = 0; i < 9; i++) {
+			visibleRooms[i] = -1;
+		}
+		visibleRooms[0] = 1;
+	}
+	
+	public int[] getVisibleRooms() {
+		return visibleRooms;
 	}
 }

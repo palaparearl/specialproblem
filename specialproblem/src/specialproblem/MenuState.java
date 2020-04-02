@@ -24,8 +24,8 @@ public class MenuState extends State{
 				State.setState(handler.getGame().levelSelect);
 				handler.getGame().levelSelect.setUIManager();
 				
-//				State.setState(handler.getGame().mazes[0]);
-//				handler.getGame().mazes[0].setUIManager();
+//				State.setState(handler.getGame().teaching);
+//				handler.getGame().teaching.setUIManager();
 			}
 		}));
 		
@@ -39,7 +39,9 @@ public class MenuState extends State{
 		uiManager.addObject(new UIImageButton((handler.getGame().getWidth() / 2) - 64, 400, 128, 64, Assets.credits_btn, new ClickListener() {
 			@Override
 			public void onClick() {
-				System.out.println("credits!");
+//				System.out.println("credits!");
+				State.setState(handler.getGame().credits);
+				handler.getGame().credits.setUIManager();
 			}
 		}));
 		

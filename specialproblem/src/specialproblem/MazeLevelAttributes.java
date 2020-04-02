@@ -6,6 +6,7 @@ public class MazeLevelAttributes {
 	public static int[][][] doorDestinations;
 	public static int[][] correctAnswer;
 	public static int[][] numChoices;
+	public static int[][] mapRoomValues;
 	
 	public static void init() {
 		questions = new String[10][9];
@@ -20,10 +21,10 @@ public class MazeLevelAttributes {
 		questions[0][7] = "typed in the prompt (command line) to execute shell script";
 		questions[0][8] = "command that is helpful in displaying details of another command provided as argument";
 		
-		questions[1][0] = "shebang to invoke bourne again shell";
+		questions[1][0] = "shebang to invoke Bourne Again shell";
 		questions[1][1] = "an example of an alias declaration";
 		questions[1][2] = "command added in the bash script to make aliases work";
-		questions[1][3] = "an example of an function definition";
+		questions[1][3] = "an example of a function definition";
 		questions[1][4] = "not a syntax for invoking a function";
 		questions[1][5] = "an example of a comment in a shell script";
 		questions[1][6] = "shell function definition must appear before function call";
@@ -77,7 +78,7 @@ public class MazeLevelAttributes {
 		questions[6][4] = "whitespace is ignored when shell evaluates arithmetic expressions";
 		questions[6][5] = "an example of referencing variables inside arithmetic expression";
 		questions[6][6] = "result of $((5 & 3)) (bitwise and)";
-		questions[6][7] = "result 0f $((5 ^ 3)) (bitwise or)";
+		questions[6][7] = "result of $((5 ^ 3)) (bitwise or)";
 		questions[6][8] = "symbol used for binary one's complement";
 		
 		questions[7][0] = "a good practice is to test the script frequently when adding new code";
@@ -85,7 +86,7 @@ public class MazeLevelAttributes {
 		questions[7][2] = "alternate method to apply tracing, uses the commands to turn tracing on";
 		questions[7][3] = "alternate method to apply tracing, uses the commands to turn tracing off";
 		questions[7][4] = "bash supports multi-line comment";
-		questions[7][5] = "command in the text editor vim to turn on syntax highlighting";
+		questions[7][5] = "command in the text editor \"Vim\" to turn on syntax highlighting";
 		questions[7][6] = "given the line \"num=\", what is the result of the expansion of the statement \"if [ $num = 1 ]\" which produces an error";
 		questions[7][7] = "errors that do not prevent a program from running, but produces faulty output";
 		questions[7][8] = "it is a good practice to enclose variables and command substitutions in double quotes";
@@ -160,5 +161,17 @@ public class MazeLevelAttributes {
 		numChoices[7] = new int[] {2, 3, 3, 3, 2, 3, 3, 3, 2};
 		numChoices[8] = new int[] {3, 3, 3, 2, 3, 3, 2, 2, 3};
 		numChoices[9] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 2};
+		
+		mapRoomValues = new int[10][];
+		mapRoomValues[0] = new int[] {0, 1, 2, 3, 0, 4, 5, 4, 5};
+		mapRoomValues[1] = new int[] {6, 0, 7, 2, 8, 9, 5, 0, 10};
+		mapRoomValues[2] = new int[] {0, 2, 6, 3, 11, 4, 11, 2, 5};
+		mapRoomValues[3] = new int[] {0, 2, 6, 3, 11, 4, 5, 0, 10};
+		mapRoomValues[4] = new int[] {0, 1, 7, 2, 11, 4, 11, 2, 5};
+		mapRoomValues[5] = new int[] {12, 1, 2, 4, 10, 0, 5, 0, 10};
+		mapRoomValues[6] = new int[] {6, 0, 2, 4, 10, 9, 5, 0, 10};
+		mapRoomValues[7] = new int[] {6, 0, 2, 4, 10, 9, 11, 2, 5};
+		mapRoomValues[8] = new int[] {0, 13, 2, 4, 7, 9, 5, 0, 10};
+		mapRoomValues[9] = new int[] {12, 13, 2, 3, 1, 0, 5, 4, 5};
 	}
 }

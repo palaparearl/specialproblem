@@ -2,6 +2,8 @@ package specialproblem;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class LevelSelect extends State{
 	
@@ -143,6 +145,10 @@ public class LevelSelect extends State{
 		g.drawImage(Assets.levelsLocked[7], 900 - 15 - 430, 100 + 85 + 15 + 85 + 15, null);
 		g.drawImage(Assets.levelsLocked[8], 900 - 15 - 430, 100 + 85 + 15 + 85 + 15 + 85 + 15, null);
 		g.drawImage(Assets.levelsLocked[9], 900 - 15 - 430, 100 + 85 + 15 + 85 + 15 + 85 + 15 + 85 + 15, null);
+		
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHints(rh);
 		
 		Text.drawString(g, "SELECT LEVEL", handler.getGame().getWidth() / 2, 57, true, Color.BLACK, Assets.courier);
 		
