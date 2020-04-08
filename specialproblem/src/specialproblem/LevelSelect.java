@@ -9,10 +9,29 @@ public class LevelSelect extends State{
 	
 	private UIManager uiManager;
 	private UIImageButton[] levelButtons;
+	private UIImageButton mute, unmute;
 	
 	public LevelSelect(Handler handler) {
 		super(handler);
 		uiManager = new UIManager(handler);
+		
+		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().pauseMusic();
+			}
+		});
+		
+		uiManager.addObject(mute);
+		
+		unmute = new UIImageButton(794 - 58, 10, 0, 0, Assets.unmute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().playMusic();
+			}
+		});
+		
+		uiManager.addObject(unmute);
 		
 		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.menu, new ClickListener() {
 			@Override
@@ -27,8 +46,31 @@ public class LevelSelect extends State{
 		levelButtons[0] = new UIImageButton(15, 100, 0, 0, Assets.levels[0], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[0]);
-				handler.getGame().crosswords[0].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[0]);
+					handler.getGame().teaching[0].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 0) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[0]);
+						handler.getGame().teaching[0].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[0]);
@@ -36,8 +78,31 @@ public class LevelSelect extends State{
 		levelButtons[1] = new UIImageButton(15, 100 + 85 + 15, 0, 0, Assets.levels[1], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[1]);
-				handler.getGame().crosswords[1].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[1]);
+					handler.getGame().teaching[1].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 1) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[1]);
+						handler.getGame().teaching[1].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[1]);
@@ -45,8 +110,31 @@ public class LevelSelect extends State{
 		levelButtons[2] = new UIImageButton(15, 100 + 85 + 15 + 85 + 15, 0, 0, Assets.levels[2], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[2]);
-				handler.getGame().crosswords[2].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[2]);
+					handler.getGame().teaching[2].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() -1 != 2) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[2]);
+						handler.getGame().teaching[2].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[2]);
@@ -54,8 +142,31 @@ public class LevelSelect extends State{
 		levelButtons[3] = new UIImageButton(15, 100 + 85 + 15 + 85 + 15 + 85 + 15, 0, 0, Assets.levels[3], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[3]);
-				handler.getGame().crosswords[3].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[3]);
+					handler.getGame().teaching[3].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 3) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[3]);
+						handler.getGame().teaching[3].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[3]);
@@ -63,8 +174,31 @@ public class LevelSelect extends State{
 		levelButtons[4] = new UIImageButton(15, 100 + 85 + 15 + 85 + 15 + 85 + 15 + 85 + 15, 0, 0, Assets.levels[4], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[4]);
-				handler.getGame().crosswords[4].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[4]);
+					handler.getGame().teaching[4].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 4) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[4]);
+						handler.getGame().teaching[4].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[4]);
@@ -72,8 +206,31 @@ public class LevelSelect extends State{
 		levelButtons[5] = new UIImageButton(900 - 15 - 430, 100, 0, 0, Assets.levels[5], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[5]);
-				handler.getGame().crosswords[5].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[5]);
+					handler.getGame().teaching[5].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 5) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[5]);
+						handler.getGame().teaching[5].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[5]);
@@ -81,8 +238,31 @@ public class LevelSelect extends State{
 		levelButtons[6] = new UIImageButton(900 - 15 - 430, 100 + 85 + 15, 0, 0, Assets.levels[6], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[6]);
-				handler.getGame().crosswords[6].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[6]);
+					handler.getGame().teaching[6].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 6) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[6]);
+						handler.getGame().teaching[6].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[6]);
@@ -90,8 +270,31 @@ public class LevelSelect extends State{
 		levelButtons[7] = new UIImageButton(900 - 15 - 430, 100 + 85 + 15 + 85 + 15, 0, 0, Assets.levels[7], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[7]);
-				handler.getGame().crosswords[7].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[7]);
+					handler.getGame().teaching[7].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 7) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[7]);
+						handler.getGame().teaching[7].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[7]);
@@ -99,8 +302,31 @@ public class LevelSelect extends State{
 		levelButtons[8] = new UIImageButton(900 - 15 - 430, 100 + 85 + 15 + 85 + 15 + 85 + 15, 0, 0, Assets.levels[8], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[8]);
-				handler.getGame().crosswords[8].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[8]);
+					handler.getGame().teaching[8].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 8) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[8]);
+						handler.getGame().teaching[8].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[8]);
@@ -108,8 +334,31 @@ public class LevelSelect extends State{
 		levelButtons[9] = new UIImageButton(900 - 15 - 430, 100 + 85 + 15 + 85 + 15 + 85 + 15 + 85 + 15, 0, 0, Assets.levels[9], new ClickListener() {
 			@Override
 			public void onClick() {
-				State.setState(handler.getGame().crosswords[9]);
-				handler.getGame().crosswords[9].setUIManager();
+				if(State.getPrevState() == null) {
+					State.setState(handler.getGame().teaching[9]);
+					handler.getGame().teaching[9].setUIManager();
+				}
+				else {
+					if(State.getPrevState().getLevel() - 1 != 9) {
+						// clear prev state here
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().resetCurrRoom();
+						}
+						State.getPrevState().reset();
+						//
+						State.setState(handler.getGame().teaching[9]);
+						handler.getGame().teaching[9].setUIManager();
+					}
+					else {
+						State.setState(State.getPrevState());
+						State.getState().setUIManager();
+						if(State.getPrevState() instanceof Maze) {
+							State.getPrevState().startTimer();
+						}
+					}
+				}
+				
+				State.setPrevState(null);
 			}
 		});
 		uiManager.addObject(levelButtons[9]);
@@ -123,6 +372,13 @@ public class LevelSelect extends State{
 
 	@Override
 	public void render(Graphics g) {
+		if(handler.getGame().getBgMusicPlayer().status.equals("play")) {
+			onMuteIcon();
+		}
+		else {
+			onUnmuteIcon();
+		}
+		
 		g.drawImage(Assets.menuBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
 		
 		g.setColor(Color.LIGHT_GRAY);
@@ -167,5 +423,25 @@ public class LevelSelect extends State{
 				levelButtons[i].updateBounds();
 			}
 		}
+	}
+	
+	public void onMuteIcon() {
+		mute.setWidth(48);
+		mute.setHeight(32);
+		mute.updateBounds();
+		
+		unmute.setWidth(0);
+		unmute.setHeight(0);
+		unmute.updateBounds();
+	}
+	
+	public void onUnmuteIcon() {
+		mute.setWidth(0);
+		mute.setHeight(0);
+		mute.updateBounds();
+		
+		unmute.setWidth(48);
+		unmute.setHeight(32);
+		unmute.updateBounds();
 	}
 }

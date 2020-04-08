@@ -2,6 +2,8 @@ package specialproblem;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class Room {
 	private UIManager uiManager;
@@ -18,10 +20,12 @@ public class Room {
 	private UIImageButton[] choiceButtons;
 	private UIImageButton proceed;
 	private boolean answered;
+	private UIImageButton mute, unmute;
 	
 	public Room(Maze maze, int roomNo, Handler handler, String question, int[] doorPositions, int[] doorDestinations, int correctAnswer) {
 		this.maze = maze;
 		this.roomNo = roomNo;
+		this.handler = handler;
 		this.question = question;
 		this.doorPositions = doorPositions;
 		this.doorDestinations = doorDestinations;
@@ -35,6 +39,24 @@ public class Room {
 		}
 		
 		uiManager = new UIManager(handler);
+		
+		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().pauseMusic();
+			}
+		});
+		
+		uiManager.addObject(mute);
+		
+		unmute = new UIImageButton(794 - 58, 10, 0, 0, Assets.unmute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().playMusic();
+			}
+		});
+		
+		uiManager.addObject(unmute);
 		
 		choiceButtons = new UIImageButton[MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]];
 		for(int i = 0; i < MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]; i++) {
@@ -78,6 +100,8 @@ public class Room {
 		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.menu, new ClickListener() {
 			@Override
 			public void onClick() {
+				maze.stopTimer();
+				State.setPrevState(State.getState());
 				State.setState(handler.getGame().menuState);
 				handler.getGame().menuState.setUIManager();
 			}
@@ -232,8 +256,21 @@ public class Room {
 	}
 	
 	public void render(Graphics g) {
+		if(handler.getGame().getBgMusicPlayer().status.equals("play")) {
+			onMuteIcon();
+		}
+		else {
+			onUnmuteIcon();
+		}
+		
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 400, 900, 200);
+		
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHints(rh);
+		
+		Text.drawString(g, getMins() + ":" + getSecs(), 20, 580, false, Color.BLACK, Assets.sevensegment);
 		
 		if(answered) {
 			for(int i = 0; i < MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]; i++) {
@@ -355,5 +392,45 @@ public class Room {
 		appearDoors();
 		disappearChoicesReset();
 		answered = false;
+	}
+	
+	public String getMins() {
+		int mins = (int)(maze.getTimer().getSecondsPassed() / 60);
+		
+		if(mins < 10) {
+			return "0" + mins;
+		}
+		
+		return "" + mins;
+	}
+	
+	public String getSecs() {
+		int secs = (int)(maze.getTimer().getSecondsPassed() % 60);
+		
+		if(secs < 10) {
+			return "0" + secs;
+		}
+		
+		return "" + secs;
+	}
+	
+	public void onMuteIcon() {
+		mute.setWidth(48);
+		mute.setHeight(32);
+		mute.updateBounds();
+		
+		unmute.setWidth(0);
+		unmute.setHeight(0);
+		unmute.updateBounds();
+	}
+	
+	public void onUnmuteIcon() {
+		mute.setWidth(0);
+		mute.setHeight(0);
+		mute.updateBounds();
+		
+		unmute.setWidth(48);
+		unmute.setHeight(32);
+		unmute.updateBounds();
 	}
 }

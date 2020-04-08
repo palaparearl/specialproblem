@@ -163,7 +163,7 @@ public class MazeLevelAttributes {
 		numChoices[9] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 2};
 		
 		mapRoomValues = new int[10][];
-		mapRoomValues[0] = new int[] {0, 1, 2, 3, 0, 4, 5, 4, 5};
+		mapRoomValues[0] = new int[] {0, 13, 2, 3, 0, 4, 5, 4, 5};
 		mapRoomValues[1] = new int[] {6, 0, 7, 2, 8, 9, 5, 0, 10};
 		mapRoomValues[2] = new int[] {0, 2, 6, 3, 11, 4, 11, 2, 5};
 		mapRoomValues[3] = new int[] {0, 2, 6, 3, 11, 4, 5, 0, 10};

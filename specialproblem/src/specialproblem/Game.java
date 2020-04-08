@@ -2,7 +2,10 @@ package specialproblem;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 public class Game implements Runnable {
 	
@@ -23,7 +26,7 @@ public class Game implements Runnable {
 	public State levelSelect;
 	public State[] crosswords;
 	public State[] mazes;
-	public State teaching;
+	public State[] teaching;
 	
 	// Input
 	private KeyManager keyManager;
@@ -36,6 +39,7 @@ public class Game implements Runnable {
 	private Handler handler;
 	
 	private int[] levelsUnlocked;
+	private SimpleAudioPlayer bgMusic;
 		
 	public Game(String title, int width, int height) {
 		this.width = width;
@@ -44,7 +48,8 @@ public class Game implements Runnable {
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
 		
-		levelsUnlocked = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		levelsUnlocked = readUnlockedLevels();
+//		levelsUnlocked = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 	}
 	
 	private void init() {
@@ -73,10 +78,20 @@ public class Game implements Runnable {
 		for(int i = 0; i < 10; i++) {
 			mazes[i] = new Maze(handler, i + 1, MazeLevelAttributes.questions[i], MazeLevelAttributes.doorPositions[i], MazeLevelAttributes.doorDestinations[i], MazeLevelAttributes.correctAnswer[i]);
 		}
-		teaching = new Teaching(handler);
+		teaching = new Teaching[10];
+		for(int i = 0; i < 10; i++) {
+			teaching[i] = new Teaching(handler, i + 1);
+		}
 //		crossword = new Crossword(handler, 1, CrosswordLevelAttributes.lettersIndices[0], CrosswordLevelAttributes.words[0], CrosswordLevelAttributes.defs[0]);
 		display.doneLoading();
 		State.setState(menuState);
+		try {
+			bgMusic = new SimpleAudioPlayer("/sounds/bgMusic.wav");
+		}
+		catch(Exception e) {
+//			System.out.println("cant");
+		}
+		bgMusic.play();
 	}
 		
 	private void tick() {
@@ -185,5 +200,93 @@ public class Game implements Runnable {
 
 	public void unlockLevel(int i) {
 		levelsUnlocked[i] = 1;
+		
+		String unlockedLevelsStr = "";
+		
+		for(int j = 0; j < 10; j++) {
+			if(levelsUnlocked[j] == 1) {
+				unlockedLevelsStr = unlockedLevelsStr.concat("1");
+			}
+			else {
+				unlockedLevelsStr = unlockedLevelsStr.concat("0");
+			}
+		}
+//		System.out.println(unlockedLevelsStr);
+		
+		try {
+			FileWriter writer = new FileWriter("ul.txt");
+			BufferedWriter txtWriter = new BufferedWriter(writer);
+			
+			txtWriter.write(unlockedLevelsStr);
+			
+			txtWriter.close();
+		}
+		catch(Exception f) {
+			
+		}
+	}
+	
+	public int[] readUnlockedLevels(){
+		int[] returnVal = new int[] {1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+		
+		try {
+			BufferedReader txtReader = new BufferedReader(new FileReader("ul.txt"));
+			String temp = txtReader.readLine();
+			for(int i = 0; i < 10; i++) {
+//				returnVal[i] = Character.getNumericValue(temp.charAt(i));
+				if(Character.getNumericValue(temp.charAt(i)) == 0) {
+					returnVal[i] = -1;
+				}
+				else {
+					returnVal[i] = 1;
+				}
+			}
+			txtReader.close();
+		}
+		catch(Exception e) {
+			String unlockedLevelsStr = "";
+			
+			for(int i = 0; i < 10; i++) {
+				if(returnVal[i] == 1) {
+					unlockedLevelsStr = unlockedLevelsStr.concat("1");
+				}
+				else {
+					unlockedLevelsStr = unlockedLevelsStr.concat("0");
+				}
+			}
+//			System.out.println(unlockedLevelsStr);
+			
+			try {
+				FileWriter writer = new FileWriter("ul.txt");
+				BufferedWriter txtWriter = new BufferedWriter(writer);
+				
+				txtWriter.write(unlockedLevelsStr);
+				
+				txtWriter.close();
+			}
+			catch(Exception f) {
+				
+			}
+		}
+		
+		return returnVal;
+	}
+	
+	public void playMusic() {
+		bgMusic.play();
+//		try {
+//			bgMusic.resumeAudio();
+//		}
+//		catch(Exception e) {
+//			
+//		}
+	}
+	
+	public void pauseMusic() {
+		bgMusic.pause();
+	}
+	
+	public SimpleAudioPlayer getBgMusicPlayer() {
+		return bgMusic; 
 	}
 }

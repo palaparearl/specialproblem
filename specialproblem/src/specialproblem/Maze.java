@@ -20,6 +20,8 @@ public class Maze extends State{
 	private Map map;
 	private int[] visibleRooms;
 	
+	private GameTimer timer;
+	
 	public Maze(Handler handler, int level, String[] questions, int[][] doorPositions, int[][] doorDestinations, int[] correctAnswer) {
 		super(handler);
 		
@@ -42,6 +44,7 @@ public class Maze extends State{
 		}
 		numVisited = 0;
 		map = new Map(this);
+		timer = new GameTimer();
 		visibleRooms = new int[9];
 		for(int i = 0; i < 9; i++) {
 			visibleRooms[i] = -1;
@@ -133,9 +136,27 @@ public class Maze extends State{
 			visibleRooms[i] = -1;
 		}
 		visibleRooms[0] = 1;
+		timer = new GameTimer();
 	}
 	
 	public int[] getVisibleRooms() {
 		return visibleRooms;
+	}
+	
+	public void startTimer() {
+		timer.start();
+	}
+	
+	public void stopTimer() {
+		timer.stop();
+	}
+	
+	public GameTimer getTimer() {
+		return timer;
+	}
+	
+	public void resetCurrRoom() {
+		rooms[roomNumber].reset();
+		displayQuestion = false;
 	}
 }

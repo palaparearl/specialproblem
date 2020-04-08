@@ -11,17 +11,39 @@ public class Teaching extends State{
 	private BufferedImage[] slides;
 	private int currentSlide;
 	
-	public Teaching(Handler handler) {
+	private UIImageButton mute, unmute;
+	
+	public Teaching(Handler handler, int level) {
 		super(handler);
+		this.level = level;
 		
-		slides = Assets.slides[0];
+		slides = Assets.slides[level - 1];
 		currentSlide = 0;
 		
 		uiManager = new UIManager(handler);
 		
+		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().pauseMusic();
+			}
+		});
+		
+		uiManager.addObject(mute);
+		
+		unmute = new UIImageButton(794 - 58, 10, 0, 0, Assets.unmute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().playMusic();
+			}
+		});
+		
+		uiManager.addObject(unmute);
+		
 		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.menu, new ClickListener() {
 			@Override
 			public void onClick() {
+				State.setPrevState(State.getState());
 				State.setState(handler.getGame().menuState);
 				handler.getGame().menuState.setUIManager();
 			}
@@ -62,7 +84,9 @@ public class Teaching extends State{
 		uiManager.addObject(new UIImageButton(900 - 10 - 96, 558 - 32, 32 * 3, 32 * 2, Assets.proceed, new ClickListener() {
 			@Override
 			public void onClick() {
-				
+				reset();
+				State.setState(handler.getGame().crosswords[level - 1]);
+				handler.getGame().crosswords[level - 1].setUIManager();
 			}
 		}));
 	}
@@ -74,6 +98,13 @@ public class Teaching extends State{
 
 	@Override
 	public void render(Graphics g) {
+		if(handler.getGame().getBgMusicPlayer().status.equals("play")) {
+			onMuteIcon();
+		}
+		else {
+			onUnmuteIcon();
+		}
+		
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, 900, 52);
 		g.fillRect(0, 496 + 52, 900, 52);
@@ -89,6 +120,34 @@ public class Teaching extends State{
 	
 	public void setUIManager() {
 		handler.getMouseManager().setUIManager(uiManager);
+	}
+	
+	public void onMuteIcon() {
+		mute.setWidth(48);
+		mute.setHeight(32);
+		mute.updateBounds();
+		
+		unmute.setWidth(0);
+		unmute.setHeight(0);
+		unmute.updateBounds();
+	}
+	
+	public void onUnmuteIcon() {
+		mute.setWidth(0);
+		mute.setHeight(0);
+		mute.updateBounds();
+		
+		unmute.setWidth(48);
+		unmute.setHeight(32);
+		unmute.updateBounds();
+	}
+	
+	public void reset() {
+		currentSlide = 0;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 
 }

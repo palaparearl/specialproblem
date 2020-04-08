@@ -74,5 +74,21 @@ public class CrosswordTile extends UIObject{
 	public boolean isSelected() {
 		return selected;
 	}
+	
+	public int getOrigX() {
+		return (int)origX;
+	}
+	
+	public int getOrigY() {
+		return (int)origY;
+	}
+	
+	public void setOrigX(int x) {
+		origX = (float)x;
+	}
+	
+	public void setOrigY(int y) {
+		origY = (float)y;
+	}
 
 }

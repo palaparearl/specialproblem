@@ -7,7 +7,7 @@ public class Assets {
 
 	private static final int width = 32, height = 32, width2 = 25, height2 = 25;
 	
-	public static Font font28, font50, arial, arial40, courier, trixie, garamonditalic, garamondbold;
+	public static Font font28, font50, arial, arial40, courier, trixie, garamonditalic, garamondbold, sevensegment;
 	
 	public static BufferedImage dirt, grass, stone, tree;
 	public static BufferedImage wood;
@@ -21,6 +21,7 @@ public class Assets {
 	public static BufferedImage[] quit_btn;
 	public static BufferedImage[] submit_btn;
 	public static BufferedImage[] clear_btn;
+	public static BufferedImage[] shuffle_btn;
 //	public static BufferedImage[] nxt_lvl;
 	public static BufferedImage[] proceed;
 	public static BufferedImage[] menu;
@@ -47,6 +48,9 @@ public class Assets {
 	public static BufferedImage[] prev;
 	public static BufferedImage[] next;
 	public static BufferedImage[] last;
+	
+	public static BufferedImage[] mute;
+	public static BufferedImage[] unmute;
 	
 	public static BufferedImage[][] slides;
 	
@@ -77,6 +81,14 @@ public class Assets {
 		last = new BufferedImage[2];
 		last[0] = menuSheet.crop(96, 32 * 8, 96, 32);
 		last[1] = menuSheet.crop(96, 32 * 9, 96, 32);
+		
+		mute = new BufferedImage[2];
+		mute[0] = menuSheet.crop(96 * 2, 32 * 8, 48, 32);
+		mute[1] = menuSheet.crop(96 * 2 + 48, 32 * 8, 48, 32);
+		
+		unmute = new BufferedImage[2];
+		unmute[0] = menuSheet.crop(96 * 2, 32 * 9, 48, 32);
+		unmute[1] = menuSheet.crop(96 * 2 + 48, 32 * 9, 48, 32);
 		
 		mazeMap = ImageLoader.loadImage("/textures/map.png");
 		marker = ImageLoader.loadImage("/textures/marker.png");
@@ -187,6 +199,10 @@ public class Assets {
 		clear_btn[0] = menuSheet.crop(0, 64 * 3, 96, 64);
 		clear_btn[1] = menuSheet.crop(96, 64 * 3, 96, 64);
 		
+		shuffle_btn = new BufferedImage[2];
+		shuffle_btn[0] = menuSheet.crop(96 * 3, 64 * 4, 96, 64);
+		shuffle_btn[1] = menuSheet.crop(96 * 4, 64 * 4, 96, 64);
+		
 		menu = new BufferedImage[2];
 		menu[0] = menuSheet.crop(96 * 2, 64 * 3, 96, 32);
 		menu[1] = menuSheet.crop(96 * 2, 64 * 3 + 32, 96, 32);
@@ -277,8 +293,24 @@ public class Assets {
 		// to be changed after all slides have been created
 		slides = new BufferedImage[10][];
 		slides[0] = new BufferedImage[6];
-		for(int i = 0; i < 6; i++) {
-			slides[0][i] = ImageLoader.loadImage("/textures/slides/0" + i + ".png");
+		slides[1] = new BufferedImage[4];
+		slides[2] = new BufferedImage[5];
+		slides[3] = new BufferedImage[5];
+		slides[4] = new BufferedImage[4];
+		slides[5] = new BufferedImage[5];
+		slides[6] = new BufferedImage[4];
+		slides[7] = new BufferedImage[4];
+		slides[8] = new BufferedImage[3];
+		slides[9] = new BufferedImage[5];
+		
+//		for(int i = 0; i < 6; i++) {
+//			slides[0][i] = ImageLoader.loadImage("/textures/slides/0" + i + ".png");
+//		}
+		
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < slides[i].length; j++) {
+				slides[i][j] = ImageLoader.loadImage("/textures/slides/" + i + j + ".png");
+			}
 		}
 		
 		trixie = FontLoader.loadFont("/fonts/Trixie-Text.otf", 30);
@@ -289,6 +321,7 @@ public class Assets {
 		courier = FontLoader.loadFont("/fonts/COURIER.ttf", 60);
 		garamonditalic = FontLoader.loadFont("/fonts/garamonditalic.otf", 23);
 		garamondbold = FontLoader.loadFont("/fonts/garamondbold.otf", 40);
+		sevensegment = FontLoader.loadFont("/fonts/sevensegment.ttf", 30);
 	}
 	
 }

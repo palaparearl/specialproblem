@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Crossword extends State {
 	
@@ -23,10 +24,30 @@ public class Crossword extends State {
 	private int numWordsCreatedIndices;
 	private int defStartLine;
 	private UIImageButton proceed;
+	private UIImageButton mute, unmute;
 	
 	public Crossword(Handler handler, int level, int[] lettersIndices, String[] words, String[] defs) {
 		super(handler);
 		uiManager = new UIManager(handler);
+		
+		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().pauseMusic();
+			}
+		});
+		
+		uiManager.addObject(mute);
+		
+		unmute = new UIImageButton(794 - 58, 10, 0, 0, Assets.unmute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().playMusic();
+			}
+		});
+		
+		uiManager.addObject(unmute);
+		
 		this.level = level;
 		this.lettersIndices = lettersIndices;
 		numLettersSelected = 0;
@@ -53,6 +74,7 @@ public class Crossword extends State {
 				
 				State.setState(handler.getGame().mazes[level - 1]);
 				handler.getGame().mazes[level - 1].setUIManager();
+				handler.getGame().mazes[level - 1].startTimer();
 				reset();
 			}
 		});
@@ -88,7 +110,7 @@ public class Crossword extends State {
 			}
 		}));
 		
-		uiManager.addObject(new UIImageButton(700, 400, 32 * 3, 32 * 2, Assets.clear_btn, new ClickListener() {
+		uiManager.addObject(new UIImageButton(700, 270 + 64 + 34, 32 * 3, 32 * 2, Assets.clear_btn, new ClickListener() {
 			@Override
 			public void onClick() {
 				for(CrosswordTile c : crosswordTiles) {
@@ -101,15 +123,34 @@ public class Crossword extends State {
 			}
 		}));
 		
+		uiManager.addObject(new UIImageButton(700, 466, 32 * 3, 32 * 2, Assets.shuffle_btn, new ClickListener() {
+			@Override
+			public void onClick() {
+				// clear first
+				for(CrosswordTile c : crosswordTiles) {
+					if(c.isSelected() == true) {
+						c.resetCoord();
+					}
+				}
+				stringFormed = "";
+				numLettersSelected = 0;
+				//
+				shuffle();
+			}
+		}));
+		
 		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.menu, new ClickListener() {
 			@Override
 			public void onClick() {
+				State.setPrevState(State.getState());
 				State.setState(handler.getGame().menuState);
 				handler.getGame().menuState.setUIManager();
 			}
 		}));
 		
 		uiManager.addObject(proceed);
+		
+		shuffle();
 //		
 //		uiManager.addObject(new UIImageButton(0, 300, 100, 100, Assets.credits_btn, new ClickListener() {
 //			@Override
@@ -127,6 +168,13 @@ public class Crossword extends State {
 
 	@Override
 	public void render(Graphics g) {
+		if(handler.getGame().getBgMusicPlayer().status.equals("play")) {
+			onMuteIcon();
+		}
+		else {
+			onUnmuteIcon();
+		}
+		
 		g.drawImage(Assets.cw_wallpaper, 0, 0, handler.getWidth(), handler.getHeight(), null);
 		g.drawImage(Assets.letterBox, 300, 250, null);
 //		g.drawImage(Assets.alphabet[25][1], 325, 275, (int)(64 * 0.78125), (int)(64 * 0.78125), null);
@@ -187,11 +235,72 @@ public class Crossword extends State {
 	
 	public void reset() {
 		numLettersSelected = 0;
+		for(CrosswordTile c : crosswordTiles) {
+			if(c.isSelected() == true) {
+				c.resetCoord();
+			}
+		}
 		stringFormed = "";
 		for(int i = 0; i < this.words.length; i++) {
 			wordsCreatedIndices[i] = -1;
 		}
 		numWordsCreatedIndices = 0;
 		disableNextLevel();
+	}
+	
+	public void onMuteIcon() {
+		mute.setWidth(48);
+		mute.setHeight(32);
+		mute.updateBounds();
+		
+		unmute.setWidth(0);
+		unmute.setHeight(0);
+		unmute.updateBounds();
+	}
+	
+	public void onUnmuteIcon() {
+		mute.setWidth(0);
+		mute.setHeight(0);
+		mute.updateBounds();
+		
+		unmute.setWidth(48);
+		unmute.setHeight(32);
+		unmute.updateBounds();
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	public void shuffle() {
+		int[][] coordinates = new int[25][2];
+		int i = 0;
+		Random rand = new Random();
+		int tempIndex;
+		int[] used = new int[25];
+		
+		for(int j = 0; j < 25; j++) {
+			used[j] = -1;
+		}
+		
+		for(CrosswordTile c : crosswordTiles) {
+			coordinates[i][0] = c.getOrigX();
+			coordinates[i++][1] = c.getOrigY();
+		}
+		
+		for(CrosswordTile c : crosswordTiles) {
+			tempIndex = rand.nextInt(25);
+			while(used[tempIndex] != -1) {
+				tempIndex = rand.nextInt(25);
+			}
+			
+			c.setOrigX(coordinates[tempIndex][0]);
+			c.setOrigY(coordinates[tempIndex][1]);
+			c.setX(c.getOrigX());
+			c.setY(c.getOrigY());
+			c.updateBounds();
+			
+			used[tempIndex] = 1;
+		}
 	}
 }
