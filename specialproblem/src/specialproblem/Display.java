@@ -20,10 +20,14 @@ public class Display {
 	private String title;
 	private int width, height;
 	
+	private boolean executedDoneLoading;
+	
 	public Display(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
+		
+		executedDoneLoading = false;
 		
 		createDisplay();
 	}
@@ -73,5 +77,10 @@ public class Display {
 	
 	public void doneLoading() {
 		frame.remove(panel);
+		executedDoneLoading = true;
+	}
+	
+	public boolean getExecutedDoneLoading() {
+		return executedDoneLoading;
 	}
 }

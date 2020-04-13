@@ -57,6 +57,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[0]);
 						handler.getGame().teaching[0].setUIManager();
@@ -89,6 +91,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[1]);
 						handler.getGame().teaching[1].setUIManager();
@@ -121,6 +125,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[2]);
 						handler.getGame().teaching[2].setUIManager();
@@ -153,6 +159,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[3]);
 						handler.getGame().teaching[3].setUIManager();
@@ -185,6 +193,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[4]);
 						handler.getGame().teaching[4].setUIManager();
@@ -217,6 +227,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[5]);
 						handler.getGame().teaching[5].setUIManager();
@@ -249,6 +261,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[6]);
 						handler.getGame().teaching[6].setUIManager();
@@ -281,6 +295,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[7]);
 						handler.getGame().teaching[7].setUIManager();
@@ -313,6 +329,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[8]);
 						handler.getGame().teaching[8].setUIManager();
@@ -345,6 +363,8 @@ public class LevelSelect extends State{
 							State.getPrevState().resetCurrRoom();
 						}
 						State.getPrevState().reset();
+						handler.getGame().readHintWordsFormed();
+						handler.getGame().setHints(0);
 						//
 						State.setState(handler.getGame().teaching[9]);
 						handler.getGame().teaching[9].setUIManager();

@@ -55,6 +55,10 @@ public class Assets {
 	public static BufferedImage[][] slides;
 	
 	public static BufferedImage[][][][] choices;
+	
+	public static BufferedImage hintWordsWindow;
+	
+	public static BufferedImage[] restartLevel;
 
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet.png"));
@@ -65,6 +69,12 @@ public class Assets {
 		SpriteSheet levelsUnselected = new SpriteSheet(ImageLoader.loadImage("/textures/levelsunselected.png"));
 				
 		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen.png");
+		
+		hintWordsWindow = ImageLoader.loadImage("/textures/formedWords.png");
+		
+		restartLevel = new BufferedImage[2];
+		restartLevel[0] = menuSheet.crop(96 * 4, 64 * 2, 48, 32);
+		restartLevel[1] = menuSheet.crop(96 * 4 + 48, 64 * 2, 48, 32);
 		
 		first = new BufferedImage[2];
 		first[0] = menuSheet.crop(0, 32 * 8, 96, 32);

@@ -20,7 +20,7 @@ public class Room {
 	private UIImageButton[] choiceButtons;
 	private UIImageButton proceed;
 	private boolean answered;
-	private UIImageButton mute, unmute;
+	private UIImageButton mute, unmute, restartLevel;
 	
 	public Room(Maze maze, int roomNo, Handler handler, String question, int[] doorPositions, int[] doorDestinations, int correctAnswer) {
 		this.maze = maze;
@@ -39,6 +39,19 @@ public class Room {
 		}
 		
 		uiManager = new UIManager(handler);
+		
+		restartLevel = new UIImageButton(794 - 58 - 58, 10, 48, 32, Assets.restartLevel, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().createNewInstance(maze.getLevel()- 1);
+				handler.getGame().readHintWordsFormed();
+				handler.getGame().setHints(0);
+				State.setState(handler.getGame().teaching[maze.getLevel() - 1]);
+				handler.getGame().teaching[maze.getLevel() - 1].setUIManager();
+			}
+		});
+		
+		uiManager.addObject(restartLevel);
 		
 		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
 			@Override
@@ -115,6 +128,8 @@ public class Room {
 					maze.setRoomNumber(nextRoom);
 				}
 				else {
+					maze.handler.getGame().writeHintsToFile();
+					maze.handler.getGame().setHints(0);
 					maze.reset();
 					if(maze.getLevel() != 10) {
 						handler.getGame().unlockLevel(maze.getLevel());

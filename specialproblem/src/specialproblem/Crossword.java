@@ -24,11 +24,24 @@ public class Crossword extends State {
 	private int numWordsCreatedIndices;
 	private int defStartLine;
 	private UIImageButton proceed;
-	private UIImageButton mute, unmute;
+	private UIImageButton mute, unmute, restartLevel;
 	
 	public Crossword(Handler handler, int level, int[] lettersIndices, String[] words, String[] defs) {
 		super(handler);
 		uiManager = new UIManager(handler);
+		
+		restartLevel = new UIImageButton(794 - 58 - 58, 10, 48, 32, Assets.restartLevel, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().createNewInstance(level - 1);
+				handler.getGame().readHintWordsFormed();
+				handler.getGame().setHints(0);
+				State.setState(handler.getGame().teaching[level - 1]);
+				handler.getGame().teaching[level - 1].setUIManager();
+			}
+		});
+		
+		uiManager.addObject(restartLevel);
 		
 		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
 			@Override
@@ -90,23 +103,45 @@ public class Crossword extends State {
 		uiManager.addObject(new UIImageButton(700, 270, 32 * 3, 32 * 2, Assets.submit_btn, new ClickListener() {
 			@Override
 			public void onClick() {
-				if(numWordsCreatedIndices != words.length) {
-					for(int i = 0; i < words.length; i++) {
-						if(words[i].equals(stringFormed) && contains(wordsCreatedIndices, i) == false) {
-							wordsCreatedIndices[numWordsCreatedIndices++] = i;
-							for(CrosswordTile c : crosswordTiles) {
-								if(c.isSelected() == true) {
-									c.resetCoord();
-								}
-							}
-							stringFormed = "";
-							numLettersSelected = 0;
-							if(numWordsCreatedIndices == words.length) {
-								enableNextLevel();
+//				if(numWordsCreatedIndices != words.length) {
+				
+				boolean found = false;
+				
+				for(int i = 0; i < words.length; i++) {
+					if(words[i].equals(stringFormed) && contains(wordsCreatedIndices, i) == false) {
+						wordsCreatedIndices[numWordsCreatedIndices++] = i;
+						for(CrosswordTile c : crosswordTiles) {
+							if(c.isSelected() == true) {
+								c.resetCoord();
 							}
 						}
+						stringFormed = "";
+						numLettersSelected = 0;
+						if(numWordsCreatedIndices == words.length) {
+							enableNextLevel();
+						}
+						
+						found = true;
 					}
 				}
+				
+				if(found == false) {
+					if(containsStringArray(handler.getGame().getCommandDictionary(), handler.getGame().getCommandDictionary().length, stringFormed)
+							&& containsStringArray(handler.getGame().getHintWordsFormed(), handler.getGame().getNumHintWordsFormed(), stringFormed) == false) {
+						handler.getGame().setHints(handler.getGame().getHints() + 1);
+						handler.getGame().getHintWordsFormed()[handler.getGame().getNumHintWordsFormed()] = stringFormed;
+						handler.getGame().setNumHintWordsFormed(handler.getGame().getNumHintWordsFormed() + 1);
+						
+						for(CrosswordTile c : crosswordTiles) {
+							if(c.isSelected() == true) {
+								c.resetCoord();
+							}
+						}
+						stringFormed = "";
+						numLettersSelected = 0;
+					}
+				}
+//				}
 			}
 		}));
 		
@@ -194,6 +229,9 @@ public class Crossword extends State {
 				Text.drawString(g, words[index], 5, defStartLine + (index * 130) - 20, false, Color.RED, Assets.garamondbold);
 			}
 		}
+		
+//		Text.drawString(g, "" + handler.getGame().getHints(), 700, 550, false, Color.BLACK, Assets.arial);
+		
 		uiManager.render(g);
 	}
 	
@@ -234,13 +272,13 @@ public class Crossword extends State {
 	}
 	
 	public void reset() {
-		numLettersSelected = 0;
 		for(CrosswordTile c : crosswordTiles) {
 			if(c.isSelected() == true) {
 				c.resetCoord();
 			}
 		}
 		stringFormed = "";
+		numLettersSelected = 0;
 		for(int i = 0; i < this.words.length; i++) {
 			wordsCreatedIndices[i] = -1;
 		}
@@ -302,5 +340,15 @@ public class Crossword extends State {
 			
 			used[tempIndex] = 1;
 		}
+	}
+	
+	public boolean containsStringArray(String[] arr, int size, String str) {
+		for(int i = 0; i < size; i++) {
+			if(arr[i].equalsIgnoreCase(str)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

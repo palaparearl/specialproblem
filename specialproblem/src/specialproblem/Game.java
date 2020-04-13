@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 
 public class Game implements Runnable {
 	
@@ -40,6 +41,10 @@ public class Game implements Runnable {
 	
 	private int[] levelsUnlocked;
 	private SimpleAudioPlayer bgMusic;
+	private String[] command_dictionary;
+	private String[] hintWordsFormed;
+	private int numHintWordsFormed;
+	private int hints;
 		
 	public Game(String title, int width, int height) {
 		this.width = width;
@@ -50,6 +55,11 @@ public class Game implements Runnable {
 		
 		levelsUnlocked = readUnlockedLevels();
 //		levelsUnlocked = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		
+		readCommandDictionary();
+		hints = 0;
+		readHintWordsFormed();
+		
 	}
 	
 	private void init() {
@@ -288,5 +298,102 @@ public class Game implements Runnable {
 	
 	public SimpleAudioPlayer getBgMusicPlayer() {
 		return bgMusic; 
+	}
+	
+	public void readCommandDictionary() {
+		command_dictionary = new String[627];
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(Game.class.getResourceAsStream("/command_dictionary.txt")));
+		
+		try {
+			String line;
+			int i = 0;
+			
+			while((line = reader.readLine()) != null) {
+				command_dictionary[i++] = line;
+			}
+		}
+		catch(Exception e) {
+			
+		}
+	}
+	
+	public void readHintWordsFormed() {
+		hintWordsFormed = new String[627];
+		numHintWordsFormed = 0;
+		
+		try {
+			BufferedReader txtReader = new BufferedReader(new FileReader("hwf.txt"));
+			String line;
+			
+			while((line = txtReader.readLine()) != null) {
+				hintWordsFormed[numHintWordsFormed++] = line;
+			}
+			
+			txtReader.close();
+		}
+		catch(Exception e) {
+			try {
+				FileWriter writer = new FileWriter("hwf.txt");
+				BufferedWriter txtWriter = new BufferedWriter(writer);
+				
+				txtWriter.write("");
+				
+				txtWriter.close();
+			}
+			catch(Exception f) {
+				
+			}
+		}
+	}
+	
+	public String[] getCommandDictionary() {
+		return command_dictionary;
+	}
+	
+	public String[] getHintWordsFormed() {
+		return hintWordsFormed;
+	}
+	
+	public int getNumHintWordsFormed() {
+		return numHintWordsFormed;
+	}
+	
+	public void setNumHintWordsFormed(int n) {
+		numHintWordsFormed = n;
+	}
+	
+	public int getHints() {
+		return hints;
+	}
+	
+	public void setHints(int n) {
+		hints = n;
+	}
+	
+	public void writeHintsToFile() {
+		try {
+			FileWriter writer = new FileWriter("hwf.txt");
+			BufferedWriter txtWriter = new BufferedWriter(writer);
+			
+			for(int i = 0; i < numHintWordsFormed; i++) {
+				if(i != numHintWordsFormed - 1) {
+					txtWriter.write(hintWordsFormed[i] + "\n");
+				}
+				else {
+					txtWriter.write(hintWordsFormed[i]);
+				}
+			}
+			
+			txtWriter.close();
+		}
+		catch(Exception f) {
+			
+		}
+	}
+	
+	public void createNewInstance(int index) {
+		crosswords[index] = new Crossword(handler, index + 1, CrosswordLevelAttributes.lettersIndices[index], CrosswordLevelAttributes.words[index], CrosswordLevelAttributes.defs[index]);
+		mazes[index] = new Maze(handler, index + 1, MazeLevelAttributes.questions[index], MazeLevelAttributes.doorPositions[index], MazeLevelAttributes.doorDestinations[index], MazeLevelAttributes.correctAnswer[index]);
 	}
 }
