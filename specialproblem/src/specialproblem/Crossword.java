@@ -24,7 +24,8 @@ public class Crossword extends State {
 	private int numWordsCreatedIndices;
 	private int defStartLine;
 	private UIImageButton proceed;
-	private UIImageButton mute, unmute, restartLevel;
+	private UIImageButton mute, unmute, restartLevel, closeHintWindow;
+	private boolean showHintWordsWindow;
 	
 	public Crossword(Handler handler, int level, int[] lettersIndices, String[] words, String[] defs) {
 		super(handler);
@@ -42,6 +43,18 @@ public class Crossword extends State {
 		});
 		
 		uiManager.addObject(restartLevel);
+		
+		closeHintWindow = new UIImageButton(900 - 10 - 48, 52, 0, 0, Assets.closeHintWordsWindow, new ClickListener() {
+			@Override
+			public void onClick() {
+				showHintWordsWindow = false;
+				closeHintWindow.setWidth(0);
+				closeHintWindow.setHeight(0);
+				closeHintWindow.updateBounds();
+			}
+		});
+		
+		uiManager.addObject(closeHintWindow);
 		
 		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
 			@Override
@@ -79,6 +92,9 @@ public class Crossword extends State {
 		else {
 			defStartLine = 145 + 130;
 		}
+		
+		showHintWordsWindow = false;
+		
 		proceed = new UIImageButton(handler.getGame().getWidth() / 2 - 48, 150, 0, 0, Assets.proceed, new ClickListener() {
 			@Override
 			public void onClick() {
@@ -171,6 +187,11 @@ public class Crossword extends State {
 				numLettersSelected = 0;
 				//
 				shuffle();
+				
+//				showHintWordsWindow = true;
+//				closeHintWindow.setWidth(48);
+//				closeHintWindow.setHeight(32);
+//				closeHintWindow.updateBounds();
 			}
 		}));
 		
@@ -233,6 +254,10 @@ public class Crossword extends State {
 //		Text.drawString(g, "" + handler.getGame().getHints(), 700, 550, false, Color.BLACK, Assets.arial);
 		
 		uiManager.render(g);
+		
+		if(showHintWordsWindow) {
+			g.drawImage(Assets.hintWordsWindow, 10, 52, null);
+		}
 	}
 	
 	public void setUIManager() {

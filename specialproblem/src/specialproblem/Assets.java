@@ -57,6 +57,7 @@ public class Assets {
 	public static BufferedImage[][][][] choices;
 	
 	public static BufferedImage hintWordsWindow;
+	public static BufferedImage[] closeHintWordsWindow;
 	
 	public static BufferedImage[] restartLevel;
 
@@ -71,6 +72,9 @@ public class Assets {
 		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen.png");
 		
 		hintWordsWindow = ImageLoader.loadImage("/textures/formedWords.png");
+		closeHintWordsWindow = new BufferedImage[2];
+		closeHintWordsWindow[0] = menuSheet.crop(96 * 4, 64 * 2 + 32, 48, 32);
+		closeHintWordsWindow[1] = menuSheet.crop(96 * 4 + 48, 64 * 2 + 32, 48, 32);
 		
 		restartLevel = new BufferedImage[2];
 		restartLevel[0] = menuSheet.crop(96 * 4, 64 * 2, 48, 32);

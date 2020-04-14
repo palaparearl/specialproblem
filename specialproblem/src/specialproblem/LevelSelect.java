@@ -53,9 +53,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 0) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -87,9 +84,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 1) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -121,9 +115,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() -1 != 2) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -155,9 +146,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 3) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -189,9 +177,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 4) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -223,9 +208,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 5) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -257,9 +239,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 6) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -291,9 +270,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 7) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -325,9 +301,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 8) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);
@@ -359,9 +332,6 @@ public class LevelSelect extends State{
 				else {
 					if(State.getPrevState().getLevel() - 1 != 9) {
 						// clear prev state here
-						if(State.getPrevState() instanceof Maze) {
-							State.getPrevState().resetCurrRoom();
-						}
 						State.getPrevState().reset();
 						handler.getGame().readHintWordsFormed();
 						handler.getGame().setHints(0);

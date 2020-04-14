@@ -37,7 +37,7 @@ public class Maze extends State{
 			rooms[i] = new Room(this, i, handler, this.questions[i], this.doorPositions[i], this.doorDestinations[i], this.correctAnswer[i]);
 		}
 		
-		displayQuestion = false;
+		displayQuestion = true;
 		visited = new int[9];
 		for(int i = 0; i < 9; i++) {
 			visited[i] = -1;
@@ -137,6 +137,10 @@ public class Maze extends State{
 		}
 		visibleRooms[0] = 1;
 		timer = new GameTimer();
+		displayQuestion = true;
+		for(int i = 0; i < 9; i++) {
+			rooms[i] = new Room(this, i, handler, this.questions[i], this.doorPositions[i], this.doorDestinations[i], this.correctAnswer[i]);
+		}
 	}
 	
 	public int[] getVisibleRooms() {
