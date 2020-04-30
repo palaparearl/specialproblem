@@ -26,6 +26,7 @@ public abstract class UIObject {
 	public abstract void onClick();
 	
 	public void onMouseMove(MouseEvent e) {
+//		System.out.println(e.getX() + "," + e.getY());
 		if(bounds.contains(e.getX(), e.getY()))
 			hovering = true;
 		else
@@ -33,8 +34,15 @@ public abstract class UIObject {
 	}
 	
 	public void onMouseRelease(MouseEvent e) {
-		if(hovering)
+//		if(hovering)
+//			onClick();
+//			//
+//			hovering = false;
+//			//
+		if(bounds.contains(e.getX(), e.getY())) {
 			onClick();
+		}
+		
 	}
 	
 	// Getters and Setters
@@ -81,6 +89,13 @@ public abstract class UIObject {
 	
 	public void updateBounds() {
 		bounds = new Rectangle((int) x, (int) y, width, height);
+	}
+	
+	public void updateRender(int x, int y) {
+		if(bounds.contains(x, y))
+			hovering = true;
+		else
+			hovering = false;
 	}
 	
 }

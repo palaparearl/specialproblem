@@ -20,7 +20,7 @@ public class Room {
 	private UIImageButton[] choiceButtons;
 	private UIImageButton proceed;
 	private boolean answered;
-	private UIImageButton mute, unmute, restartLevel;
+	private UIImageButton mute, unmute, restartLevel, viewQuestion, useHint;
 	
 	public Room(Maze maze, int roomNo, Handler handler, String question, int[] doorPositions, int[] doorDestinations, int correctAnswer) {
 		this.maze = maze;
@@ -39,6 +39,21 @@ public class Room {
 		}
 		
 		uiManager = new UIManager(handler);
+		
+		viewQuestion = new UIImageButton(794, 52, 0, 0, Assets.viewQuestion, new ClickListener() {
+			@Override
+			public void onClick() {
+				maze.toggleDisplayQuestion();
+				if(maze.getDisplayQuestion() == false) {
+					appearDoors();
+				}
+				else {
+					disappearDoors();
+				}
+			}
+		});
+		
+		uiManager.addObject(viewQuestion);
 		
 		restartLevel = new UIImageButton(794 - 58 - 58, 10, 48, 32, Assets.restartLevel, new ClickListener() {
 			@Override
@@ -79,6 +94,7 @@ public class Room {
 						@Override
 						public void onClick() {
 							answered = true;
+							appearViewQuestion();
 							maze.addVisited(roomNo);
 							disappearChoices();
 							maze.toggleDisplayQuestion();
@@ -92,6 +108,7 @@ public class Room {
 						@Override
 						public void onClick() {
 							answered = true;
+							appearViewQuestion();
 							maze.addVisited(roomNo);
 							disappearChoices();
 							maze.toggleDisplayQuestion();
@@ -105,6 +122,7 @@ public class Room {
 						@Override
 						public void onClick() {
 							answered = true;
+							appearViewQuestion();
 							maze.addVisited(roomNo);
 							disappearChoices();
 							maze.toggleDisplayQuestion();
@@ -115,6 +133,28 @@ public class Room {
 					break;
 			}
 		}
+		
+		uiManager.addObject(new UIImageButton(20, 420, 32 * 3, 32, Assets.torch, new ClickListener() {
+			@Override
+			public void onClick() {
+				if(handler.getGame().getHints() > 0) {
+					handler.getGame().setHints(handler.getGame().getHints() - 1);
+					maze.torch();
+				}
+			}
+		}));
+		
+		uiManager.addObject(new UIImageButton(20, 462, 32 * 3, 32, Assets.hint, new ClickListener() {
+			@Override
+			public void onClick() {
+				if(handler.getGame().getHints() > 0) {
+					handler.getGame().setHints(handler.getGame().getHints() - 1);
+					State.setPrevState(State.getState());
+					State.setState(new Teaching(handler, maze.getLevel(), true));
+					State.getState().setUIManager();
+				}
+			}
+		}));
 		
 		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.menu, new ClickListener() {
 			@Override
@@ -169,6 +209,8 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
+										maze.handler.getGame().writeHintsToFile();
+										maze.handler.getGame().setHints(0);
 										maze.reset();
 										if(maze.getLevel() != 10) {
 											handler.getGame().unlockLevel(maze.getLevel());
@@ -200,6 +242,8 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
+										maze.handler.getGame().writeHintsToFile();
+										maze.handler.getGame().setHints(0);
 										maze.reset();
 										if(maze.getLevel() != 10) {
 											handler.getGame().unlockLevel(maze.getLevel());
@@ -231,6 +275,8 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
+										maze.handler.getGame().writeHintsToFile();
+										maze.handler.getGame().setHints(0);
 										maze.reset();
 										if(maze.getLevel() != 10) {
 											handler.getGame().unlockLevel(maze.getLevel());
@@ -262,6 +308,8 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
+										maze.handler.getGame().writeHintsToFile();
+										maze.handler.getGame().setHints(0);
 										maze.reset();
 										if(maze.getLevel() != 10) {
 											handler.getGame().unlockLevel(maze.getLevel());
@@ -295,7 +343,8 @@ public class Room {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHints(rh);
 		
-		Text.drawString(g, getMins() + ":" + getSecs(), 20, 580, false, Color.BLACK, Assets.sevensegment);
+		Text.drawString(g, getMins() + ":" + getSecs(), 20, 540, false, Color.BLACK, Assets.sevensegment);
+		Text.drawString(g, "HINTS: " + handler.getGame().getHints(), 20, 580, false, Color.BLACK, Assets.garamonditalic);
 		
 		if(answered) {
 			for(int i = 0; i < MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]; i++) {
@@ -348,7 +397,6 @@ public class Room {
 				doorButtons[i].setWidth(0);
 				doorButtons[i].setHeight(0);
 				doorButtons[i].updateBounds();
-				appearChoices();
 			}
 		}
 	}
@@ -457,5 +505,11 @@ public class Room {
 		unmute.setWidth(48);
 		unmute.setHeight(32);
 		unmute.updateBounds();
+	}
+	
+	public void appearViewQuestion() {
+		viewQuestion.setWidth(96);
+		viewQuestion.setHeight(32);
+		viewQuestion.updateBounds();
 	}
 }

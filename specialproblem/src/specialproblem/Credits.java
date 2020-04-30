@@ -53,6 +53,7 @@ public class Credits extends State {
 		else {
 			onUnmuteIcon();
 		}
+		uiManager.updateRender();
 		
 		g.drawImage(Assets.menuBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
 		g.setColor(Color.LIGHT_GRAY);

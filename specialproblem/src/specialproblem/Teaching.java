@@ -91,6 +91,79 @@ public class Teaching extends State{
 		}));
 	}
 	
+	public Teaching(Handler handler, int level, boolean asHint) {
+		super(handler);
+		this.level = level;
+		
+		slides = Assets.slides[level - 1];
+		currentSlide = 0;
+		
+		uiManager = new UIManager(handler);
+		
+		mute = new UIImageButton(794 - 58, 10, 0, 0, Assets.mute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().pauseMusic();
+			}
+		});
+		
+		uiManager.addObject(mute);
+		
+		unmute = new UIImageButton(794 - 58, 10, 0, 0, Assets.unmute, new ClickListener() {
+			@Override
+			public void onClick() {
+				handler.getGame().playMusic();
+			}
+		});
+		
+		uiManager.addObject(unmute);
+		
+		uiManager.addObject(new UIImageButton(794, 10, 32 * 3, 32, Assets.back, new ClickListener() {
+			@Override
+			public void onClick() {
+//				State.setPrevState(State.getState());
+//				State.setState(handler.getGame().menuState);
+//				handler.getGame().menuState.setUIManager();
+				
+				State.setState(State.getPrevState());
+				State.getState().setUIManager();
+				State.setPrevState(null);
+			}
+		}));
+		
+		uiManager.addObject(new UIImageButton(243, 558, 32 * 3, 32, Assets.first, new ClickListener() {
+			@Override
+			public void onClick() {
+				currentSlide = 0;
+			}
+		}));
+		
+		uiManager.addObject(new UIImageButton(349, 558, 32 * 3, 32, Assets.prev, new ClickListener() {
+			@Override
+			public void onClick() {
+				if(currentSlide != 0) {
+					currentSlide--;
+				}
+			}
+		}));
+		
+		uiManager.addObject(new UIImageButton(455, 558, 32 * 3, 32, Assets.next, new ClickListener() {
+			@Override
+			public void onClick() {
+				if(currentSlide != slides.length - 1) {
+					currentSlide++;
+				}
+			}
+		}));
+		
+		uiManager.addObject(new UIImageButton(561, 558, 32 * 3, 32, Assets.last, new ClickListener() {
+			@Override
+			public void onClick() {
+				currentSlide = slides.length - 1;
+			}
+		}));
+	}
+	
 	@Override
 	public void tick() {
 		
@@ -104,6 +177,7 @@ public class Teaching extends State{
 		else {
 			onUnmuteIcon();
 		}
+		uiManager.updateRender();
 		
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, 900, 52);

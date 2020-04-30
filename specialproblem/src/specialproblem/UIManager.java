@@ -58,4 +58,9 @@ public class UIManager {
 		this.objects = objects;
 	}
 	
+	public void updateRender() {
+		for(UIObject o : objects)
+			o.updateRender(handler.getMouseManager().getMouseX(), handler.getMouseManager().getMouseY());
+	}
+	
 }

@@ -1,9 +1,11 @@
 package specialproblem;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -26,6 +28,8 @@ public class Crossword extends State {
 	private UIImageButton proceed;
 	private UIImageButton mute, unmute, restartLevel, closeHintWindow;
 	private boolean showHintWordsWindow;
+	private String[] tempStrArr;
+	private int tempStrArrLen;
 	
 	public Crossword(Handler handler, int level, int[] lettersIndices, String[] words, String[] defs) {
 		super(handler);
@@ -94,6 +98,8 @@ public class Crossword extends State {
 		}
 		
 		showHintWordsWindow = false;
+		tempStrArr = new String[627];
+		tempStrArrLen = 0;
 		
 		proceed = new UIImageButton(handler.getGame().getWidth() / 2 - 48, 150, 0, 0, Assets.proceed, new ClickListener() {
 			@Override
@@ -148,6 +154,8 @@ public class Crossword extends State {
 						handler.getGame().getHintWordsFormed()[handler.getGame().getNumHintWordsFormed()] = stringFormed;
 						handler.getGame().setNumHintWordsFormed(handler.getGame().getNumHintWordsFormed() + 1);
 						
+						tempStrArr[tempStrArrLen++] = stringFormed;
+						
 						for(CrosswordTile c : crosswordTiles) {
 							if(c.isSelected() == true) {
 								c.resetCoord();
@@ -174,7 +182,7 @@ public class Crossword extends State {
 			}
 		}));
 		
-		uiManager.addObject(new UIImageButton(700, 466, 32 * 3, 32 * 2, Assets.shuffle_btn, new ClickListener() {
+		uiManager.addObject(new UIImageButton(900 / 2 - 48, 535, 32 * 3, 32 * 2, Assets.shuffle_btn, new ClickListener() {
 			@Override
 			public void onClick() {
 				// clear first
@@ -192,6 +200,16 @@ public class Crossword extends State {
 //				closeHintWindow.setWidth(48);
 //				closeHintWindow.setHeight(32);
 //				closeHintWindow.updateBounds();
+			}
+		}));
+		
+		uiManager.addObject(new UIImageButton(700, 466, 32 * 3, 32 * 2, Assets.bonusWords, new ClickListener() {
+			@Override
+			public void onClick() {
+				showHintWordsWindow = true;
+				closeHintWindow.setWidth(48);
+				closeHintWindow.setHeight(32);
+				closeHintWindow.updateBounds();
 			}
 		}));
 		
@@ -230,14 +248,24 @@ public class Crossword extends State {
 		else {
 			onUnmuteIcon();
 		}
+		uiManager.updateRender();
 		
 		g.drawImage(Assets.cw_wallpaper, 0, 0, handler.getWidth(), handler.getHeight(), null);
-		g.drawImage(Assets.letterBox, 300, 250, null);
-//		g.drawImage(Assets.alphabet[25][1], 325, 275, (int)(64 * 0.78125), (int)(64 * 0.78125), null);
-		
+
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHints(rh);
+		
+//		Graphics2D g2 = (Graphics2D) g;
+		Stroke oldStroke = g2.getStroke();
+		g2.setStroke(new BasicStroke(3));
+		g2.setColor(Color.PINK);
+		g2.drawRoundRect(290, -10, 620, 290, 20, 20);
+		g2.setStroke(oldStroke);
+		
+		
+		g.drawImage(Assets.letterBox, 300, 250, null);
+//		g.drawImage(Assets.alphabet[25][1], 325, 275, (int)(64 * 0.78125), (int)(64 * 0.78125), null);
 		
 		for(int i = 0; i < defs.length; i++) {
 			Text.drawStringMultiLine(g, defs[i], 285, 5, defStartLine + (i * 130), Color.BLACK, Assets.garamonditalic);
@@ -257,6 +285,38 @@ public class Crossword extends State {
 		
 		if(showHintWordsWindow) {
 			g.drawImage(Assets.hintWordsWindow, 10, 52, null);
+			
+			if(handler.getGame().getNumHintWordsFormed() == 0) {
+				Text.drawString(g, "No words formed", 900 / 2, 125, true, Color.BLACK, Assets.garamonditalic);
+			}
+			else {
+				int x = 50;
+				int y = 125;
+				int i, duplicate = 0;
+				
+				for(i = 0; i < handler.getGame().getNumHintWordsFormed(); i++) {
+					if(containsStringArray(tempStrArr, tempStrArrLen, handler.getGame().getHintWordsFormed()[i]) == false) {
+						if(i != 0 && i % 20 == 0) {
+							x = x + 150;
+						}
+						Text.drawString(g, "-" + handler.getGame().getHintWordsFormed()[i], x, y + (i % 20) * 23, false, Color.BLACK, Assets.garamonditalic);
+					}
+					else {
+						duplicate++;
+					}
+				}
+				
+				i = i - duplicate;
+				
+				for(int j = 0; j < tempStrArrLen; j++, i++) {
+					if(i != 0 && i % 20 == 0) {
+						x = x + 150;
+					}
+					Text.drawString(g, "-" + tempStrArr[j], x, y + (i % 20) * 23, false, Color.RED, Assets.garamonditalic);
+				}
+			}
+			
+			
 		}
 	}
 	
@@ -304,11 +364,20 @@ public class Crossword extends State {
 		}
 		stringFormed = "";
 		numLettersSelected = 0;
+		shuffle();
 		for(int i = 0; i < this.words.length; i++) {
 			wordsCreatedIndices[i] = -1;
 		}
 		numWordsCreatedIndices = 0;
 		disableNextLevel();
+		
+		closeHintWindow.setWidth(0);
+		closeHintWindow.setHeight(0);
+		closeHintWindow.updateBounds();
+		showHintWordsWindow = false;
+		tempStrArr = new String[627];
+		tempStrArrLen = 0;
+		
 	}
 	
 	public void onMuteIcon() {

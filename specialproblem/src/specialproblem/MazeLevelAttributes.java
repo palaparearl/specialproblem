@@ -55,7 +55,7 @@ public class MazeLevelAttributes {
 		questions[4][1] = "a simple way to perform stubbing is to place this command in an empty function definition";
 		questions[4][2] = "variables that cease to exist once the function terminates";
 		questions[4][3] = "the entire script being executed can be considered as a single large function";
-		questions[4][4] = "in the code snippet \"shell=\"bash\"; func () { greet=hello; }\", which is the local variable";
+		questions[4][4] = "in the code snippet:    shell=\"bash\";           func () { greet=hello; }                        which is the local variable";
 		questions[4][5] = "local variables supersedes global variables";
 		questions[4][6] = "syntax of a function call with provided arguments";
 		questions[4][7] = "way to access the parameters provided for the function";
@@ -78,7 +78,7 @@ public class MazeLevelAttributes {
 		questions[6][4] = "whitespace is ignored when shell evaluates arithmetic expressions";
 		questions[6][5] = "an example of referencing variables inside arithmetic expression";
 		questions[6][6] = "result of $((5 & 3)) (bitwise and)";
-		questions[6][7] = "result of $((5 ^ 3)) (bitwise or)";
+		questions[6][7] = "result of $((5 ^ 3)) (bitwise xor)";
 		questions[6][8] = "symbol used for binary one's complement";
 		
 		questions[7][0] = "a good practice is to test the script frequently when adding new code";
@@ -139,16 +139,16 @@ public class MazeLevelAttributes {
 		
 		correctAnswer = new int[10][];
 		
-		correctAnswer[0] = new int[] {1, 2, 0, 1, 0, 2, 0, 1, 1};
+		correctAnswer[0] = new int[] {1, 2, 0, 1, 2, 2, 0, 1, 1};
 		correctAnswer[1] = new int[] {1, 1, 1, 0, 2, 1, 1, 0, 1};
 		correctAnswer[2] = new int[] {2, 1, 1, 0, 0, 2, 1, 0, 1};
 		correctAnswer[3] = new int[] {2, 0, 0, 2, 2, 1, 2, 0, 2};
 		correctAnswer[4] = new int[] {1, 1, 1, 0, 2, 0, 0, 2, 1};
 		correctAnswer[5] = new int[] {2, 1, 1, 0, 2, 1, 0, 0, 2};
-		correctAnswer[6] = new int[] {2, 2, 1, 2, 1, 0, 1, 2, 2};
-		correctAnswer[7] = new int[] {1, 2, 0, 0, 1, 1, 1, 2, 0};
-		correctAnswer[8] = new int[] {0, 1, 0, 0, 1, 0, 0, 1, 1};
-		correctAnswer[9] = new int[] {1, 1, 2, 0, 1, 2, 1, 0, 1};
+		correctAnswer[6] = new int[] {2, 2, 1, 2, 1, 0, 1, 1, 1};
+		correctAnswer[7] = new int[] {1, 2, 0, 1, 0, 1, 1, 2, 0};
+		correctAnswer[8] = new int[] {0, 0, 0, 0, 1, 0, 1, 1, 1};
+		correctAnswer[9] = new int[] {1, 1, 2, 1, 1, 2, 1, 0, 1};
 		
 		numChoices = new int[10][];
 		numChoices[0] = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 3};

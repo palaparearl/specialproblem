@@ -85,6 +85,7 @@ public class MenuState extends State{
 		else {
 			onUnmuteIcon();
 		}
+		uiManager.updateRender();
 		
 		g.drawImage(Assets.menuBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
 		

@@ -368,6 +368,7 @@ public class LevelSelect extends State{
 		else {
 			onUnmuteIcon();
 		}
+		uiManager.updateRender();
 		
 		g.drawImage(Assets.menuBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
 		

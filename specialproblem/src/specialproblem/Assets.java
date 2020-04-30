@@ -7,7 +7,7 @@ public class Assets {
 
 	private static final int width = 32, height = 32, width2 = 25, height2 = 25;
 	
-	public static Font font28, font50, arial, arial40, courier, trixie, garamonditalic, garamondbold, sevensegment;
+	public static Font font28, font50, arial, arial40, courier, trixie, garamonditalic, garamondbold, sevensegment, p22_typewriter;
 	
 	public static BufferedImage dirt, grass, stone, tree;
 	public static BufferedImage wood;
@@ -58,6 +58,14 @@ public class Assets {
 	
 	public static BufferedImage hintWordsWindow;
 	public static BufferedImage[] closeHintWordsWindow;
+	public static BufferedImage[] bonusWords;
+	public static BufferedImage[] torch;
+	public static BufferedImage[] viewQuestion;
+	public static BufferedImage[] hint;
+	public static BufferedImage[] back;
+	
+	public static BufferedImage[] restartLevelFailed;
+	public static BufferedImage[] nextLevel;
 	
 	public static BufferedImage[] restartLevel;
 
@@ -75,6 +83,34 @@ public class Assets {
 		closeHintWordsWindow = new BufferedImage[2];
 		closeHintWordsWindow[0] = menuSheet.crop(96 * 4, 64 * 2 + 32, 48, 32);
 		closeHintWordsWindow[1] = menuSheet.crop(96 * 4 + 48, 64 * 2 + 32, 48, 32);
+		
+		bonusWords = new BufferedImage[2];
+		bonusWords[0] = menuSheet.crop(96 * 3, 64 * 5, 96, 64);
+		bonusWords[1] = menuSheet.crop(96 * 2, 64 * 5, 96, 64);
+		
+		torch = new BufferedImage[2];
+		torch[0] = menuSheet.crop(96 * 4, 64 * 5, 96, 32);
+		torch[1] = menuSheet.crop(96 * 4, 64 * 5 + 32, 96, 32);
+		
+		viewQuestion = new BufferedImage[2];
+		viewQuestion[0] = menuSheet.crop(0, 64 * 6 + 32, 96, 32);
+		viewQuestion[1] = menuSheet.crop(96, 64 * 6 + 32, 96, 32);
+		
+		hint = new BufferedImage[2];
+		hint[0] = menuSheet.crop(96 * 4, 64 * 6, 96, 32);
+		hint[1] = menuSheet.crop(96 * 4, 64 * 6 + 32, 96, 32);
+		
+		back = new BufferedImage[2];
+		back[0] = menuSheet.crop(96 * 3, 64 * 6, 96, 32);
+		back[1] = menuSheet.crop(96 * 3, 64 * 6 + 32, 96, 32);
+		
+		restartLevelFailed = new BufferedImage[2];
+		restartLevelFailed[0] = menuSheet.crop(0, 64 * 6, 96, 32);
+		restartLevelFailed[1] = menuSheet.crop(96, 64 * 6, 96, 32);
+		
+		nextLevel = new BufferedImage[2];
+		nextLevel[0] = menuSheet.crop(96 * 2, 64 * 6, 96, 32);
+		nextLevel[1] = menuSheet.crop(96 * 2, 64 * 6 + 32, 96, 32);
 		
 		restartLevel = new BufferedImage[2];
 		restartLevel[0] = menuSheet.crop(96 * 4, 64 * 2, 48, 32);
@@ -328,6 +364,7 @@ public class Assets {
 		}
 		
 		trixie = FontLoader.loadFont("/fonts/Trixie-Text.otf", 30);
+		p22_typewriter = FontLoader.loadFont("/fonts/P22_Typewriter.ttf", 30);
 		font28 = FontLoader.loadFont("/fonts/slkscr.ttf", 28);
 		font50 = FontLoader.loadFont("/fonts/slkscr.ttf", 50);
 		arial = FontLoader.loadFont("/fonts/Arial.ttf", 20);

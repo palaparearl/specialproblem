@@ -44,7 +44,7 @@ public class Maze extends State{
 		}
 		numVisited = 0;
 		map = new Map(this);
-		timer = new GameTimer();
+		timer = new GameTimer(this);
 		visibleRooms = new int[9];
 		for(int i = 0; i < 9; i++) {
 			visibleRooms[i] = -1;
@@ -87,7 +87,7 @@ public class Maze extends State{
 		
 		if(displayQuestion == true) {
 			g.drawImage(Assets.scroll, 5, 10, 600, 350, null);
-			Text.drawStringMultiLine(g, questions[roomNumber], 440, 90, 90, Color.BLACK, Assets.trixie);
+			Text.drawStringMultiLine(g, questions[roomNumber], 421, 90, 80, Color.BLACK, Assets.p22_typewriter);
 		}
 	}
 	
@@ -106,6 +106,10 @@ public class Maze extends State{
 	
 	public void toggleDisplayQuestion() {
 		displayQuestion = !displayQuestion;
+	}
+	
+	public boolean getDisplayQuestion() {
+		return displayQuestion;
 	}
 	
 	public int getLevel() {
@@ -136,7 +140,7 @@ public class Maze extends State{
 			visibleRooms[i] = -1;
 		}
 		visibleRooms[0] = 1;
-		timer = new GameTimer();
+		timer = new GameTimer(this);
 		displayQuestion = true;
 		for(int i = 0; i < 9; i++) {
 			rooms[i] = new Room(this, i, handler, this.questions[i], this.doorPositions[i], this.doorDestinations[i], this.correctAnswer[i]);
@@ -162,5 +166,33 @@ public class Maze extends State{
 	public void resetCurrRoom() {
 		rooms[roomNumber].reset();
 		displayQuestion = false;
+	}
+	
+	public void torch() {
+		int[] temp = new int[9];
+		
+		for(int i = 0; i < 9; i++) {
+			temp[i] = visibleRooms[i];
+			visibleRooms[i] = 1;
+		}
+		
+		try {
+			Thread.sleep(500);
+		}
+		catch(Exception e) {
+			
+		}
+		
+		for(int i = 0; i < 9; i++) {
+			visibleRooms[i] = temp[i];
+		}
+	}
+	
+	public void levelFailed() {
+		reset();
+		handler.getGame().readHintWordsFormed();
+		handler.getGame().setHints(0);
+		State.setState(handler.getGame().menuState);
+		handler.getGame().menuState.setUIManager();
 	}
 }
