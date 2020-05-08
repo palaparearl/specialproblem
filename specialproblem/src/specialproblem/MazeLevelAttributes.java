@@ -141,7 +141,7 @@ public class MazeLevelAttributes {
 		
 		correctAnswer[0] = new int[] {1, 2, 0, 1, 2, 2, 0, 1, 1};
 		correctAnswer[1] = new int[] {1, 1, 1, 0, 2, 1, 1, 0, 1};
-		correctAnswer[2] = new int[] {2, 1, 1, 0, 0, 2, 1, 0, 1};
+		correctAnswer[2] = new int[] {2, 1, 1, 2, 0, 2, 1, 0, 1};
 		correctAnswer[3] = new int[] {2, 0, 0, 2, 2, 1, 2, 0, 2};
 		correctAnswer[4] = new int[] {1, 1, 1, 0, 2, 0, 0, 2, 1};
 		correctAnswer[5] = new int[] {2, 1, 1, 0, 2, 1, 0, 0, 2};

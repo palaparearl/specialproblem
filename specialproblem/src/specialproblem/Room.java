@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class Room {
 	private UIManager uiManager;
@@ -61,6 +63,7 @@ public class Room {
 				handler.getGame().createNewInstance(maze.getLevel()- 1);
 				handler.getGame().readHintWordsFormed();
 				handler.getGame().setHints(0);
+				maze.stopTimer();
 				State.setState(handler.getGame().teaching[maze.getLevel() - 1]);
 				handler.getGame().teaching[maze.getLevel() - 1].setUIManager();
 			}
@@ -90,43 +93,64 @@ public class Room {
 		for(int i = 0; i < MazeLevelAttributes.numChoices[maze.getLevel() - 1][roomNo]; i++) {
 			switch(i) {
 				case 0:
-					choiceButtons[0] = new UIImageButton(200, 415, 400, 50, Assets.choices[maze.getLevel() - 1][roomNo][0], new ClickListener() {
+					choiceButtons[0] = new UIImageButton(205, 415, 400, 50, Assets.choices[maze.getLevel() - 1][roomNo][0], new ClickListener() {
 						@Override
 						public void onClick() {
+							if(correctAnswer == 0) {
+								maze.incrementCorrectAnswers();
+							}
 							answered = true;
 							appearViewQuestion();
 							maze.addVisited(roomNo);
 							disappearChoices();
 							maze.toggleDisplayQuestion();
 							appearDoors();
+							if(maze.getNumVisited() - maze.getCorrectAnswers() >= 5) {
+								float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+								maze.levelDone(2, percent * 100);
+							}
 						}
 					});
 					uiManager.addObject(choiceButtons[0]);
 					break;
 				case 1:
-					choiceButtons[1] = new UIImageButton(200, 475, 400, 50, Assets.choices[maze.getLevel() - 1][roomNo][1], new ClickListener() {
+					choiceButtons[1] = new UIImageButton(205, 475, 400, 50, Assets.choices[maze.getLevel() - 1][roomNo][1], new ClickListener() {
 						@Override
 						public void onClick() {
+							if(correctAnswer == 1) {
+								maze.incrementCorrectAnswers();
+							}
 							answered = true;
 							appearViewQuestion();
 							maze.addVisited(roomNo);
 							disappearChoices();
 							maze.toggleDisplayQuestion();
 							appearDoors();
+							if(maze.getNumVisited() - maze.getCorrectAnswers() >= 5) {
+								float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+								maze.levelDone(2, percent * 100);
+							}
 						}
 					});
 					uiManager.addObject(choiceButtons[1]);
 					break;
 				case 2:
-					choiceButtons[2] = new UIImageButton(200, 535, 400, 50, Assets.choices[maze.getLevel() - 1][roomNo][2], new ClickListener() {
+					choiceButtons[2] = new UIImageButton(205, 535, 400, 50, Assets.choices[maze.getLevel() - 1][roomNo][2], new ClickListener() {
 						@Override
 						public void onClick() {
+							if(correctAnswer == 2) {
+								maze.incrementCorrectAnswers();
+							}
 							answered = true;
 							appearViewQuestion();
 							maze.addVisited(roomNo);
 							disappearChoices();
 							maze.toggleDisplayQuestion();
 							appearDoors();
+							if(maze.getNumVisited() - maze.getCorrectAnswers() >= 5) {
+								float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+								maze.levelDone(2, percent * 100);
+							}
 						}
 					});
 					uiManager.addObject(choiceButtons[2]);
@@ -134,7 +158,7 @@ public class Room {
 			}
 		}
 		
-		uiManager.addObject(new UIImageButton(20, 420, 32 * 3, 32, Assets.torch, new ClickListener() {
+		uiManager.addObject(new UIImageButton(20, 410, 32 * 3, 32, Assets.torch, new ClickListener() {
 			@Override
 			public void onClick() {
 				if(handler.getGame().getHints() > 0) {
@@ -144,7 +168,7 @@ public class Room {
 			}
 		}));
 		
-		uiManager.addObject(new UIImageButton(20, 462, 32 * 3, 32, Assets.hint, new ClickListener() {
+		uiManager.addObject(new UIImageButton(20, 452, 32 * 3, 32, Assets.hint, new ClickListener() {
 			@Override
 			public void onClick() {
 				if(handler.getGame().getHints() > 0) {
@@ -209,15 +233,20 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
-										maze.handler.getGame().writeHintsToFile();
-										maze.handler.getGame().setHints(0);
-										maze.reset();
-										if(maze.getLevel() != 10) {
-											handler.getGame().unlockLevel(maze.getLevel());
+										float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+//										maze.reset();
+										if(percent >= 0.55) {
+											maze.handler.getGame().writeHintsToFile();
+											maze.handler.getGame().setHints(0);
+											if(maze.getLevel() != 10) {
+												handler.getGame().unlockLevel(maze.getLevel());
+											}
+											handler.getGame().levelSelect.setUnlockedLevels();
+											maze.levelDone(0, (float) 0.0);
 										}
-										handler.getGame().levelSelect.setUnlockedLevels();
-										State.setState(handler.getGame().levelSelect);
-										handler.getGame().levelSelect.setUIManager();
+										else {
+											maze.levelDone(2, percent * 100);
+										}
 									}
 								}
 							}
@@ -242,15 +271,20 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
-										maze.handler.getGame().writeHintsToFile();
-										maze.handler.getGame().setHints(0);
-										maze.reset();
-										if(maze.getLevel() != 10) {
-											handler.getGame().unlockLevel(maze.getLevel());
+										float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+//										maze.reset();
+										if(percent >= 0.55) {
+											maze.handler.getGame().writeHintsToFile();
+											maze.handler.getGame().setHints(0);
+											if(maze.getLevel() != 10) {
+												handler.getGame().unlockLevel(maze.getLevel());
+											}
+											handler.getGame().levelSelect.setUnlockedLevels();
+											maze.levelDone(0, (float) 0.0);
 										}
-										handler.getGame().levelSelect.setUnlockedLevels();
-										State.setState(handler.getGame().levelSelect);
-										handler.getGame().levelSelect.setUIManager();
+										else {
+											maze.levelDone(2, percent * 100);
+										}
 									}
 								}
 							}
@@ -275,15 +309,20 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
-										maze.handler.getGame().writeHintsToFile();
-										maze.handler.getGame().setHints(0);
-										maze.reset();
-										if(maze.getLevel() != 10) {
-											handler.getGame().unlockLevel(maze.getLevel());
+										float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+//										maze.reset();
+										if(percent >= 0.55) {
+											maze.handler.getGame().writeHintsToFile();
+											maze.handler.getGame().setHints(0);
+											if(maze.getLevel() != 10) {
+												handler.getGame().unlockLevel(maze.getLevel());
+											}
+											handler.getGame().levelSelect.setUnlockedLevels();
+											maze.levelDone(0, (float) 0.0);
 										}
-										handler.getGame().levelSelect.setUnlockedLevels();
-										State.setState(handler.getGame().levelSelect);
-										handler.getGame().levelSelect.setUIManager();
+										else {
+											maze.levelDone(2, percent * 100);
+										}
 									}
 								}
 							}
@@ -308,15 +347,20 @@ public class Room {
 										maze.setRoomNumber(nextRoom);
 									}
 									else {
-										maze.handler.getGame().writeHintsToFile();
-										maze.handler.getGame().setHints(0);
-										maze.reset();
-										if(maze.getLevel() != 10) {
-											handler.getGame().unlockLevel(maze.getLevel());
+										float percent = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+//										maze.reset();
+										if(percent >= 0.55) {
+											maze.handler.getGame().writeHintsToFile();
+											maze.handler.getGame().setHints(0);
+											if(maze.getLevel() != 10) {
+												handler.getGame().unlockLevel(maze.getLevel());
+											}
+											handler.getGame().levelSelect.setUnlockedLevels();
+											maze.levelDone(0, (float) 0.0);
 										}
-										handler.getGame().levelSelect.setUnlockedLevels();
-										State.setState(handler.getGame().levelSelect);
-										handler.getGame().levelSelect.setUIManager();
+										else {
+											maze.levelDone(2, percent * 100);
+										}
 									}
 								}
 							}
@@ -343,7 +387,18 @@ public class Room {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHints(rh);
 		
-		Text.drawString(g, getMins() + ":" + getSecs(), 20, 540, false, Color.BLACK, Assets.sevensegment);
+		DecimalFormat df = new DecimalFormat("##.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+		
+		float percentForRender = 0;
+		if(maze.getNumVisited() != 0) {
+			percentForRender = (float) maze.getCorrectAnswers() / (float) maze.getNumVisited();
+			percentForRender = Float.parseFloat(df.format(percentForRender * 100));
+		}
+		
+		
+		Text.drawString(g, getMins() + ":" + getSecs(), 20, 520, false, Color.BLACK, Assets.sevensegment);
+		Text.drawString(g, maze.getCorrectAnswers() + "/" + maze.getNumVisited() + " (" + percentForRender + "%)", 20, 550, false, Color.BLACK, Assets.garamonditalic);
 		Text.drawString(g, "HINTS: " + handler.getGame().getHints(), 20, 580, false, Color.BLACK, Assets.garamonditalic);
 		
 		if(answered) {
@@ -351,30 +406,30 @@ public class Room {
 				switch(i) {
 					case 0:
 						if(correctAnswer == 0) {
-							g.drawImage(Assets.check, 140, 415, null);
+							g.drawImage(Assets.check, 145, 415, null);
 						}
 						else {
-							g.drawImage(Assets.cross, 140, 415, null);
+							g.drawImage(Assets.cross, 145, 415, null);
 						}
-						g.drawImage(Assets.choices[maze.getLevel() - 1][roomNo][0][0], 200, 415, null);
+						g.drawImage(Assets.choices[maze.getLevel() - 1][roomNo][0][0], 205, 415, null);
 						break;
 					case 1:
 						if(correctAnswer == 1) {
-							g.drawImage(Assets.check, 140, 475, null);
+							g.drawImage(Assets.check, 145, 475, null);
 						}
 						else {
-							g.drawImage(Assets.cross, 140, 475, null);
+							g.drawImage(Assets.cross, 145, 475, null);
 						}
-						g.drawImage(Assets.choices[maze.getLevel() - 1][roomNo][1][0], 200, 475, null);
+						g.drawImage(Assets.choices[maze.getLevel() - 1][roomNo][1][0], 205, 475, null);
 						break;
 					case 2:
 						if(correctAnswer == 2) {
-							g.drawImage(Assets.check, 140, 535, null);
+							g.drawImage(Assets.check, 145, 535, null);
 						}
 						else {
-							g.drawImage(Assets.cross, 140, 535, null);
+							g.drawImage(Assets.cross, 145, 535, null);
 						}
-						g.drawImage(Assets.choices[maze.getLevel() - 1][roomNo][2][0], 200, 535, null);
+						g.drawImage(Assets.choices[maze.getLevel() - 1][roomNo][2][0], 205, 535, null);
 						break;
 				}
 			}

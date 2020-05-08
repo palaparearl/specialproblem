@@ -4,15 +4,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class LevelDone extends State {
 	private UIManager uiManager;
 	private UIImageButton mute, unmute;
-	private boolean isAccomplished;
+	private int isAccomplished;
+	private float percent;
 
-	public LevelDone(Handler handler, boolean isAccomplished, int level) {
+	public LevelDone(Handler handler, int isAccomplished, int level, float percent) {
 		super(handler);
 		this.isAccomplished = isAccomplished;
+		this.percent = percent;
 		
 		uiManager = new UIManager(handler);
 		
@@ -34,7 +38,7 @@ public class LevelDone extends State {
 		
 		uiManager.addObject(unmute);
 		
-		if(isAccomplished == true) {
+		if(isAccomplished == 0) {
 			if(level != 10) {
 				uiManager.addObject(new UIImageButton(349, 400, 32 * 3, 32, Assets.menu, new ClickListener() {
 					@Override
@@ -94,6 +98,7 @@ public class LevelDone extends State {
 		else {
 			onUnmuteIcon();
 		}
+		State.getState().setUIManager();
 		uiManager.updateRender();
 		
 		g.drawImage(Assets.menuBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
@@ -104,13 +109,25 @@ public class LevelDone extends State {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHints(rh);
 		
-		if(isAccomplished == true) {
+		if(isAccomplished == 0) {
 			Text.drawString(g, "LEVEL ACCOMPLISHED!", handler.getGame().getWidth() / 2,
 					250, true, Color.BLACK, Assets.courier);
 		}
 		else {
 			Text.drawString(g, "LEVEL FAILED", handler.getGame().getWidth() / 2,
 					200, true, Color.BLACK, Assets.courier);
+			if(isAccomplished == 1) {
+				Text.drawString(g, "*you were not able to finish in 2 minutes*", handler.getGame().getWidth() / 2,
+						300, true, Color.BLACK, Assets.garamonditalic);
+			}
+			else if(isAccomplished == 2) {
+				DecimalFormat df = new DecimalFormat("##.##");
+				df.setRoundingMode(RoundingMode.DOWN);
+
+				df.format(percent);
+				Text.drawString(g, "*you got " + df.format(this.percent) + "% correct answers, lower than 55%*", handler.getGame().getWidth() / 2,
+						300, true, Color.BLACK, Assets.garamonditalic);
+			}
 		}
 		
 		uiManager.render(g);

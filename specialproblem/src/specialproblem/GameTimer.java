@@ -6,7 +6,7 @@ import java.util.TimerTask;
 public class GameTimer {
 
 	Maze maze;
-	int secondsPassed = 0;
+	int secondsPassed = 120;
 	Timer myTimer;
 	TimerTask task;
 	
@@ -18,10 +18,10 @@ public class GameTimer {
 		myTimer = new Timer();
 		task = new TimerTask() {
 			public void run() {
-				secondsPassed++;
-//				if(secondsPassed == 20) {
-//					maze.levelFailed();
-//				}
+				secondsPassed--;
+				if(secondsPassed == 0) {
+					maze.levelDone(1, (float) 0.0);
+				}
 //				System.out.println(secondsPassed);
 			}
 		};

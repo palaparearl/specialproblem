@@ -69,12 +69,15 @@ public class Credits extends State {
 		g.fillRoundRect(50, 130, handler.getWidth() - 100, 350, 35, 25);
 		
 		Text.drawString(g, "Developer:", 100, 200, false, Color.BLACK, Assets.trixie);
-		Text.drawString(g, "Adviser:", 100, 300, false, Color.BLACK, Assets.trixie);
-		Text.drawString(g, "Sprites:", 100, 400, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, "Adviser:", 100, 260, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, "Sprites:", 100, 320, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, "Background Music:", 100, 380, false, Color.BLACK, Assets.trixie);
 		
 		Text.drawString(g, "Earl Joseph Palapar", 450, 200, false, Color.BLACK, Assets.trixie);
-		Text.drawString(g, "Zenith Arnejo", 450, 300, false, Color.BLACK, Assets.trixie);
-		Text.drawString(g, "Earl Joseph Palapar", 450, 400, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, "Zenith Arnejo", 450, 260, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, "Earl Joseph Palapar", 450, 320, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, "\"Night in Venice\"", 450, 380, false, Color.BLACK, Assets.trixie);
+		Text.drawString(g, " by Kevin MacLeod", 450, 410, false, Color.BLACK, Assets.trixie);
 		
 		uiManager.render(g);
 	}

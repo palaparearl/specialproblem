@@ -372,7 +372,7 @@ public class Assets {
 		courier = FontLoader.loadFont("/fonts/COURIER.ttf", 60);
 		garamonditalic = FontLoader.loadFont("/fonts/garamonditalic.otf", 23);
 		garamondbold = FontLoader.loadFont("/fonts/garamondbold.otf", 40);
-		sevensegment = FontLoader.loadFont("/fonts/sevensegment.ttf", 30);
+		sevensegment = FontLoader.loadFont("/fonts/sevensegment.ttf", 20);
 	}
 	
 }

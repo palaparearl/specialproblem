@@ -177,6 +177,7 @@ public class Teaching extends State{
 		else {
 			onUnmuteIcon();
 		}
+		State.getState().setUIManager();
 		uiManager.updateRender();
 		
 		g.setColor(Color.LIGHT_GRAY);

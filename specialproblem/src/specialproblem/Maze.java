@@ -19,6 +19,7 @@ public class Maze extends State{
 	private int numVisited;
 	private Map map;
 	private int[] visibleRooms;
+	private int correctAnswers;
 	
 	private GameTimer timer;
 	
@@ -50,6 +51,7 @@ public class Maze extends State{
 			visibleRooms[i] = -1;
 		}
 		visibleRooms[0] = 1;
+		correctAnswers = 0;
 		
 		uiManager = rooms[roomNumber].getUIManager();
 	}
@@ -140,6 +142,13 @@ public class Maze extends State{
 			visibleRooms[i] = -1;
 		}
 		visibleRooms[0] = 1;
+		correctAnswers = 0;
+		try {
+			stopTimer();
+		}
+		catch(Exception e) {
+			
+		}
 		timer = new GameTimer(this);
 		displayQuestion = true;
 		for(int i = 0; i < 9; i++) {
@@ -188,11 +197,32 @@ public class Maze extends State{
 		}
 	}
 	
-	public void levelFailed() {
+//	public void levelFailed(float failVal) {
+//		reset();
+//		handler.getGame().readHintWordsFormed();
+//		handler.getGame().setHints(0);
+//		State.setState(new LevelDone(handler, false, level, failCategory, failVal));
+//		State.getState().setUIManager();
+//	}
+	
+	public void levelDone(int isAccomplished, float percent) {
 		reset();
 		handler.getGame().readHintWordsFormed();
 		handler.getGame().setHints(0);
-		State.setState(handler.getGame().menuState);
-		handler.getGame().menuState.setUIManager();
+		State.setPrevState(null);
+		State.setState(new LevelDone(handler, isAccomplished, level, percent));
+		State.getState().setUIManager();
+	}
+	
+	public int getCorrectAnswers() {
+		return correctAnswers;
+	}
+	
+	public void incrementCorrectAnswers() {
+		correctAnswers++;
+	}
+	
+	public int getNumVisited() {
+		return numVisited;
 	}
 }
