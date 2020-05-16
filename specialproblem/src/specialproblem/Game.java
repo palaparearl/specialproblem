@@ -28,6 +28,8 @@ public class Game implements Runnable {
 	public State[] crosswords;
 	public State[] mazes;
 	public State[] teaching;
+	public State tutorial;
+	public State coding;
 	
 	// Input
 	private KeyManager keyManager;
@@ -92,6 +94,8 @@ public class Game implements Runnable {
 		for(int i = 0; i < 10; i++) {
 			teaching[i] = new Teaching(handler, i + 1);
 		}
+		tutorial = new Tutorial(handler);
+		coding = new Coding(handler);
 //		crossword = new Crossword(handler, 1, CrosswordLevelAttributes.lettersIndices[0], CrosswordLevelAttributes.words[0], CrosswordLevelAttributes.defs[0]);
 		display.doneLoading();
 		State.setState(menuState);

@@ -51,7 +51,10 @@ public class MenuState extends State{
 		uiManager.addObject(new UIImageButton((handler.getGame().getWidth() / 2) - 64, 300, 128, 64, Assets.tutorial_btn, new ClickListener() {
 			@Override
 			public void onClick() {
-				System.out.println("tutorial!");
+//				System.out.println("tutorial!");
+				
+				State.setState(handler.getGame().tutorial);
+				handler.getGame().tutorial.setUIManager();
 			}
 		}));
 		

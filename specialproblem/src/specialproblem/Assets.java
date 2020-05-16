@@ -53,6 +53,7 @@ public class Assets {
 	public static BufferedImage[] unmute;
 	
 	public static BufferedImage[][] slides;
+	public static BufferedImage[] tutorialSlides;
 	
 	public static BufferedImage[][][][] choices;
 	
@@ -361,6 +362,11 @@ public class Assets {
 			for(int j = 0; j < slides[i].length; j++) {
 				slides[i][j] = ImageLoader.loadImage("/textures/slides/" + i + j + ".png");
 			}
+		}
+		
+		tutorialSlides = new BufferedImage[10];
+		for(int i = 0; i < 10; i++) {
+			tutorialSlides[i] = ImageLoader.loadImage("/textures/htp/t" + i + ".png");
 		}
 		
 		trixie = FontLoader.loadFont("/fonts/Trixie-Text.otf", 30);
