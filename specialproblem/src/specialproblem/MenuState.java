@@ -39,12 +39,12 @@ public class MenuState extends State{
 //				State.setState(handler.getGame().crosswords[0]);
 //				handler.getGame().crosswords[0].setUIManager();
 				
-				handler.getGame().levelSelect.setUnlockedLevels();
-				State.setState(handler.getGame().levelSelect);
-				handler.getGame().levelSelect.setUIManager();
+//				handler.getGame().levelSelect.setUnlockedLevels();
+//				State.setState(handler.getGame().levelSelect);
+//				handler.getGame().levelSelect.setUIManager();
 				
-//				State.setState(handler.getGame().teaching);
-//				handler.getGame().teaching.setUIManager();
+				State.setState(handler.getGame().fourthCoding);
+				handler.getGame().fourthCoding.setUIManager();
 			}
 		}));
 		
@@ -53,8 +53,8 @@ public class MenuState extends State{
 			public void onClick() {
 //				System.out.println("tutorial!");
 				
-				State.setState(handler.getGame().tutorial);
-				handler.getGame().tutorial.setUIManager();
+				State.setState(handler.getGame().coding);
+				handler.getGame().coding.setUIManager();
 			}
 		}));
 		
@@ -62,15 +62,18 @@ public class MenuState extends State{
 			@Override
 			public void onClick() {
 //				System.out.println("credits!");
-				State.setState(handler.getGame().credits);
-				handler.getGame().credits.setUIManager();
+				State.setState(handler.getGame().secondCoding);
+				handler.getGame().secondCoding.setUIManager();
 			}
 		}));
 		
 		uiManager.addObject(new UIImageButton((handler.getGame().getWidth() / 2) - 64, 500, 128, 64, Assets.quit_btn, new ClickListener() {
 			@Override
 			public void onClick() {
-				System.exit(0);
+//				System.exit(0);
+				
+				State.setState(handler.getGame().thirdCoding);
+				handler.getGame().thirdCoding.setUIManager();
 			}
 		}));
 	}

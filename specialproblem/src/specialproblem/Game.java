@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
@@ -30,6 +31,9 @@ public class Game implements Runnable {
 	public State[] teaching;
 	public State tutorial;
 	public State coding;
+	public State secondCoding;
+	public State thirdCoding;
+	public State fourthCoding;
 	
 	// Input
 	private KeyManager keyManager;
@@ -61,7 +65,7 @@ public class Game implements Runnable {
 		readCommandDictionary();
 		hints = 0;
 		readHintWordsFormed();
-		
+		createScriptFiles();
 	}
 	
 	private void init() {
@@ -96,6 +100,9 @@ public class Game implements Runnable {
 		}
 		tutorial = new Tutorial(handler);
 		coding = new Coding(handler);
+		secondCoding = new SecondCoding(handler);
+		thirdCoding = new ThirdCoding(handler);
+		fourthCoding = new FourthCoding(handler);
 //		crossword = new Crossword(handler, 1, CrosswordLevelAttributes.lettersIndices[0], CrosswordLevelAttributes.words[0], CrosswordLevelAttributes.defs[0]);
 		display.doneLoading();
 		State.setState(menuState);
@@ -399,5 +406,183 @@ public class Game implements Runnable {
 	public void createNewInstance(int index) {
 		crosswords[index] = new Crossword(handler, index + 1, CrosswordLevelAttributes.lettersIndices[index], CrosswordLevelAttributes.words[index], CrosswordLevelAttributes.defs[index]);
 		mazes[index] = new Maze(handler, index + 1, MazeLevelAttributes.questions[index], MazeLevelAttributes.doorPositions[index], MazeLevelAttributes.doorDestinations[index], MazeLevelAttributes.correctAnswer[index]);
+	}
+	
+	public Display getDisplay() {
+		return display;
+	}
+	
+	public void createScriptFiles() {
+		try {
+			File f = new File("scripts");
+			f.mkdir();
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter("scripts/concat1.sh"));
+			writer.write("\n" + 
+					"rm scripts/result.txt;\n" + 
+					"echo \"false\" > scripts/result.txt;\n" + 
+					"\n" + 
+					"if [ \"$hello\" != \"world\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"if [ \"$hi\" != \"\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"chmod 755 scripts/concat1_1.sh;\n" + 
+					"./scripts/concat1_1.sh;");
+			writer.close();
+			
+			BufferedWriter writer2 = new BufferedWriter(new FileWriter("scripts/concat1_1.sh"));
+			writer2.write("#!/bin/bash\n" + 
+					"\n" + 
+					"if [ \"$hello\" != \"world\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"echo \"true\" > scripts/result.txt;");
+			writer2.close();
+			
+			BufferedWriter writer3 = new BufferedWriter(new FileWriter("scripts/concat1_func.sh"));
+			writer3.write("#!/bin/bash\n" + 
+					"\n" + 
+					"cat scripts/concat1.sh >> scripts/userscript.sh;");
+			writer3.close();
+			
+			BufferedWriter writer4 = new BufferedWriter(new FileWriter("scripts/concat2.sh"));
+			writer4.write("\n" + 
+					"rm scripts/result.txt;\n" + 
+					"echo \"false\" > scripts/result.txt;\n" + 
+					"\n" + 
+					"if [ \"$global\" != \"global\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(supersedes);\n" + 
+					"\n" + 
+					"if [ \"$var\" != \"local\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"echo \"true\" > scripts/result.txt;");
+			writer4.close();
+			
+			BufferedWriter writer5 = new BufferedWriter(new FileWriter("scripts/concat2_func.sh"));
+			writer5.write("#!/bin/bash\n" + 
+					"\n" + 
+					"cat scripts/concat2.sh >> scripts/userscript.sh;");
+			writer5.close();
+			
+			BufferedWriter writer6 = new BufferedWriter(new FileWriter("scripts/concat3.sh"));
+			writer6.write("\n" + 
+					"rm scripts/result.txt;\n" + 
+					"echo \"false\" > scripts/result.txt;\n" + 
+					"\n" + 
+					"var=$(funcname 0);\n" + 
+					"if [ \"$var\" != \"zero\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 1);\n" + 
+					"if [ \"$var\" != \"one\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 2);\n" + 
+					"if [ \"$var\" != \"two\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 3);\n" + 
+					"if [ \"$var\" != \"three\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 4);\n" + 
+					"if [ \"$var\" != \"four\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 5);\n" + 
+					"if [ \"$var\" != \"five\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 6);\n" + 
+					"if [ \"$var\" != \"six\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 7);\n" + 
+					"if [ \"$var\" != \"seven\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 8);\n" + 
+					"if [ \"$var\" != \"eight\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"var=$(funcname 9);\n" + 
+					"if [ \"$var\" != \"nine\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"echo \"true\" > scripts/result.txt;");
+			writer6.close();
+			
+			BufferedWriter writer7 = new BufferedWriter(new FileWriter("scripts/concat3_func.sh"));
+			writer7.write("#!/bin/bash\n" + 
+					"\n" + 
+					"cat scripts/concat3.sh >> scripts/userscript.sh;");
+			writer7.close();
+			
+			BufferedWriter writer8 = new BufferedWriter(new FileWriter("scripts/concat4.sh"));
+			writer8.write("\n" + 
+					"rm scripts/result.txt;\n" + 
+					"echo \"false\" > scripts/result.txt;\n" + 
+					"\n" + 
+					"var=$(echo $(funcname this is sparta));\n" + 
+					"var2=\"this is sparta\";\n" + 
+					"\n" + 
+					"if [ \"$var\" != \"$var2\" ]; then\n" + 
+					"	exit;\n" + 
+					"fi\n" + 
+					"\n" + 
+					"echo \"true\" > scripts/result.txt;");
+			writer8.close();
+			
+			BufferedWriter writer9 = new BufferedWriter(new FileWriter("scripts/concat4_func.sh"));
+			writer9.write("#!/bin/bash\n" + 
+					"\n" + 
+					"cat scripts/concat4.sh >> scripts/userscript.sh;");
+			writer9.close();
+			
+			BufferedWriter writer10 = new BufferedWriter(new FileWriter("scripts/keyword1.sh"));
+			writer10.write("#!/bin/bash\n" + 
+					"\n" + 
+					"rm scripts/result.txt;\n" + 
+					"echo \"false\" > scripts/result.txt;\n" + 
+					"\n" + 
+					"if grep -q \"unset\" scripts/userscript.sh; then\n" + 
+					"    echo \"true\" > scripts/result.txt;\n" + 
+					"fi");
+			writer10.close();
+			
+			BufferedWriter writer11 = new BufferedWriter(new FileWriter("scripts/keyword4.sh"));
+			writer11.write("#!/bin/bash\n" + 
+					"\n" + 
+					"rm scripts/result.txt;\n" + 
+					"echo \"false\" > scripts/result.txt;\n" + 
+					"\n" + 
+					"if grep -q \"shift\" scripts/userscript.sh; then\n" + 
+					"    echo \"true\" > scripts/result.txt;\n" + 
+					"fi");
+			writer11.close();
+		}
+		catch(Exception e) {
+			
+		}
 	}
 }

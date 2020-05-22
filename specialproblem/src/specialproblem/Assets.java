@@ -7,7 +7,7 @@ public class Assets {
 
 	private static final int width = 32, height = 32, width2 = 25, height2 = 25;
 	
-	public static Font font28, font50, arial, arial40, courier, trixie, garamonditalic, garamondbold, sevensegment, p22_typewriter;
+	public static Font filmCryptic, font28, font50, arial, arial40, courier, trixie, garamonditalic, garamondbold, sevensegment, p22_typewriter, monospace;
 	
 	public static BufferedImage dirt, grass, stone, tree;
 	public static BufferedImage wood;
@@ -69,6 +69,13 @@ public class Assets {
 	public static BufferedImage[] nextLevel;
 	
 	public static BufferedImage[] restartLevel;
+	
+	public static BufferedImage blackBoard;
+	public static BufferedImage blackBoard1;
+	public static BufferedImage blackBoard2;
+	public static BufferedImage blackBoard3;
+	public static BufferedImage blackBoard4;
+	public static BufferedImage codeHere;
 
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet.png"));
@@ -321,6 +328,13 @@ public class Assets {
 		alphabet[25][1] = alphabetSheet.crop(width2 * 2 * 3, height2 * 2 * 6, width2 * 2, height2 * 2);
 		
 		letterBox = ImageLoader.loadImage("/textures/letterBox.png");
+		
+		blackBoard = ImageLoader.loadImage("/textures/blackboard.jpg");
+		blackBoard1 = ImageLoader.loadImage("/textures/blackboard1.png");
+		blackBoard2 = ImageLoader.loadImage("/textures/blackboard2.png");
+		blackBoard3 = ImageLoader.loadImage("/textures/blackboard3.png");
+		blackBoard4 = ImageLoader.loadImage("/textures/blackboard4.png");
+		codeHere = ImageLoader.loadImage("/textures/codehere.png");
 	
 		cw_wallpaper = ImageLoader.loadImage("/textures/cw_wallpaper.jpg");
 		menuBackground = ImageLoader.loadImage("/textures/menuBackground.png");
@@ -369,6 +383,7 @@ public class Assets {
 			tutorialSlides[i] = ImageLoader.loadImage("/textures/htp/t" + i + ".png");
 		}
 		
+		filmCryptic = FontLoader.loadFont("/fonts/Filmcryptic.ttf", 25);
 		trixie = FontLoader.loadFont("/fonts/Trixie-Text.otf", 30);
 		p22_typewriter = FontLoader.loadFont("/fonts/P22_Typewriter.ttf", 30);
 		font28 = FontLoader.loadFont("/fonts/slkscr.ttf", 28);
@@ -379,6 +394,7 @@ public class Assets {
 		garamonditalic = FontLoader.loadFont("/fonts/garamonditalic.otf", 23);
 		garamondbold = FontLoader.loadFont("/fonts/garamondbold.otf", 40);
 		sevensegment = FontLoader.loadFont("/fonts/sevensegment.ttf", 20);
+		monospace = FontLoader.loadFont("/fonts/Monospace.ttf", 20);
 	}
 	
 }

@@ -9,10 +9,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class Display {
 
-	private JFrame frame;
+	private MyFrame frame;
 	private Canvas canvas;
 //	private SecondCanvas canvas;
 	private JPanel panel;
@@ -22,6 +25,11 @@ public class Display {
 	
 	private boolean executedDoneLoading;
 	
+	// child frames and textareas
+	private JFrame[] childFrames;
+	private JTextArea[] childAreas;
+	private JScrollPane[] scrollPanes;
+	
 	public Display(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
@@ -29,11 +37,41 @@ public class Display {
 		
 		executedDoneLoading = false;
 		
+		//child frames and textareas
+		childFrames = new JFrame[4];
+		childAreas = new JTextArea[4];
+		scrollPanes = new JScrollPane[4];
+		
+		for(int i = 0; i < 4; i++) {
+			childFrames[i] = new JFrame();
+			
+			childAreas[i] = new JTextArea("#!/bin/bash");
+			childAreas[i].setBounds(5, 0, 490, 540);
+			childAreas[i].setBackground(Color.DARK_GRAY);
+			childAreas[i].setForeground(Color.WHITE);
+			childAreas[i].setFont(FontLoader.loadFont("/fonts/Monospace.ttf", 20));
+			childAreas[i].setTabSize(3);
+			childAreas[i].setCaretColor(Color.WHITE);
+			
+			scrollPanes[i] = new JScrollPane(childAreas[i]);
+			scrollPanes[i].setBounds(0, 0, 500, 540);
+			scrollPanes[i].setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPanes[i].setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			
+			childFrames[i].getContentPane().add(scrollPanes[i]);
+			childFrames[i].getContentPane().setBackground(Color.DARK_GRAY);
+			childFrames[i].setUndecorated(true);
+			childFrames[i].setAlwaysOnTop(true);
+			childFrames[i].setSize(500, 540);
+			childFrames[i].setLayout(null);
+		}
+		
 		createDisplay();
+		
 	}
 	
 	public void createDisplay() {
-		frame = new JFrame(title);
+		frame = new MyFrame(title, childFrames);
 		frame.setSize(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
@@ -71,7 +109,7 @@ public class Display {
 		return canvas;
 	}
 	
-	public JFrame getFrame() {
+	public MyFrame getFrame() {
 		return frame;
 	}
 	
@@ -82,5 +120,23 @@ public class Display {
 	
 	public boolean getExecutedDoneLoading() {
 		return executedDoneLoading;
+	}
+	
+	public void setFrameVisible(int i) {
+		childFrames[i].setVisible(true);
+		childFrames[i].setLocation(frame.getX() + 20, frame.getY() + 57);
+	}
+	
+	public void setFrameInvisible(int i) {
+		childFrames[i].setVisible(false);
+//		childFrames[i].setLocation(frame.getX() + 20, frame.getY() + 57);
+	}
+	
+	public JTextArea getTextArea(int i) {
+		return childAreas[i];
+	}
+	
+	public JFrame getChildFrame(int i) {
+		return childFrames[i];
 	}
 }
